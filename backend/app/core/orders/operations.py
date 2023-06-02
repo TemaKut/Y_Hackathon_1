@@ -14,7 +14,7 @@ class OrdersOperations():
         """ Инициализация объекта класса. """
         self.storage_ym = StorageYM()
 
-    async def predict_packaging(self, data: list[ProductSKU]):
+    async def predict_packaging(self, data: list[ProductSKU]): 
         """ Предсказать распределение товаров по пакетам. """
         valid_data = await self.get_products_from_ym(data)
         print(valid_data)
