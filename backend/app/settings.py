@@ -38,3 +38,6 @@ DB_URL_TEST = (
     + f"{DB_USER_TEST}:{DB_PASSWORD_TEST}@{DB_HOST_TEST}:{DB_PORT_TEST}"
     + f"/{DB_NAME_TEST}"
 )
+
+# Домен сервера Яндекс Маркета
+YM_DOMAIN = 'http://localhost:8001'

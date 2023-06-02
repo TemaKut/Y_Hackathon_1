@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 
 
-class OrdersBeforePredict(BaseModel):
-    """ Данные заказа перед первичным предсказанием модели DS. """
+class ProductSKU(BaseModel):
+    """ Данные товара перед предсказанием. """
 
-    pass
+    sku: str
 
 
 class OrdersToRepresentation(BaseModel):

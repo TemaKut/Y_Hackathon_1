@@ -30,6 +30,14 @@ services:
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "postgres"
 
+    mock:
+        build: './yandex_mock_server'
+        container_name: yandex_mock_server
+        command: sh -c "uvicorn app.main:app --host 0.0.0.0 --port 8000"
+        restart: always
+        ports:
+            - 8001:8000
+
     backend:
         build: './backend'
         container_name: backend
@@ -38,6 +46,7 @@ services:
         depends_on:
             - db_test
             - db
+            - mock
         ports:
             - 8000:8000
 
@@ -53,4 +62,4 @@ services:
             - DB_PASSWORD_TEST=postgres_test
             - DB_NAME_TEST=postgres_test
             - DB_HOST_TEST=localhost
-            - DB_PORT_TEST=5433
+            - DB_PORT_TEST=5433 
