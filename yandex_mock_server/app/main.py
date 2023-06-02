@@ -19,3 +19,19 @@ async def get_product(sku: str):
                 return row
 
     return None
+
+
+@app.get('/product/{sku}/cargotypes')
+async def get_product_cargotypes(sku: str):
+    """ Получить список карготипов продукта. """
+    result = []
+
+    with open('app/data/cargotypes.csv', 'r') as data_csv:
+        reader = csv.DictReader(data_csv)
+
+        for row in reader:
+
+            if row.get('sku') == sku:
+                result.append(row.get('cargotype'))
+
+    return result

@@ -10,5 +10,15 @@ class Order(Base):
     id = sa.Column(
         sa.Integer,
         primary_key=True,
-        comment='ID rкомментария.'
+        comment='ID заказа.'
+    )
+
+
+class Product(Base):
+    __tablename__ = 'products'
+
+    id = sa.Column(
+        sa.Integer,
+        primary_key=True,
+        comment='ID продукта.'
     )
