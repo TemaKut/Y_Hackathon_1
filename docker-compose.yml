@@ -53,4 +53,4 @@ services:
             - DB_PASSWORD_TEST=postgres_test
             - DB_NAME_TEST=postgres_test
             - DB_HOST_TEST=localhost
-            - DB_PORT_TEST=5433
+            - DB_PORT_TEST=5433 
