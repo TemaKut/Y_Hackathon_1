@@ -44,7 +44,6 @@ services:
         #  Пример виртуального окружения. (Должно совпадать с db и db_test)
         #  Для боевого проекта рекомендуется переменные env сохранить в git secrets
         environment:
-            - SECRET_KEY=SomeSuperSecretKey
             - DB_USER=postgres
             - DB_PASSWORD=postgres
             - DB_NAME=postgres
@@ -55,5 +54,3 @@ services:
             - DB_NAME_TEST=postgres_test
             - DB_HOST_TEST=localhost
             - DB_PORT_TEST=5433
-            - JWT_ALGORITHM=HS256
-            - JWT_EXPIRE_MIN=10_000
