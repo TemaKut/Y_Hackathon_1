@@ -18,7 +18,7 @@ from app.logs.logger import log
 from app.settings import DB_URL
 
 # Импорт всех моделей (Не использовать)_____
-from app.core.orders.models import Order, Product
+# from app.core.orders.models import Order, Product
 # __________________________________________
 from app.database.connection import Base  # К использованию только этот Base
 
