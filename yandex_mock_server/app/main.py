@@ -45,14 +45,14 @@ async def get_cargotype(cargotype: str):
     return None
 
 
-@app.get('/scu_cargotype/{scu}')
-async def get_scu_cargotype(scu: str):
+@app.get('/scu_cargotype/{sku}')
+async def get_sku_cargotype(sku: str):
     """Получить карготип продукта."""
 
     # Необходимо положить файл sku_cargotypes.csv в /data
     with open('app/data/sku_cargotypes.csv') as data_csv:
         reader = csv.DictReader(data_csv)
         for row in reader:
-            if row.get('scu') == scu:
+            if row.get('sku') == sku:
                 return row
     return None
