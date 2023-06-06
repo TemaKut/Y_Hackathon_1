@@ -1,8 +1,10 @@
 from fastapi import FastAPI, Body, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.data.orders import orders_data
 from app.data.sku import sku_data
 from app.data.cargotypes import cargotypes_data
+from app.schemas import TokenData
 
 
 app = FastAPI(
@@ -16,13 +18,23 @@ app = FastAPI(
     """,
 )
 
+# Настройка CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get('/users/me')
-async def get_info_about_user():
+
+@app.post('/users/me')
+async def get_info_about_user(data: TokenData = Body()):
     """
     Возвращает краткую информацию о пользователе.
     Предполагается что аккаунт сотрудников Яндекса един для всей экосистемы.
     """
+
+    # Какие-то суперсложные манипуляции с токеном из data..
 
     return {'id': 'SuperLooongestUserId123', 'username': 'ArtemKutuzov'}
 
