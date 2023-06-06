@@ -1,14 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import api_router_v1
-from app.settings import DEBUG
+from app.api import api_router
 
 
-app = FastAPI(
-    debug=DEBUG,
-    title='Super backend :)',
-)
+app = FastAPI(title='Сервер модели ML')
 
 # Настройка CORS
 app.add_middleware(
@@ -18,5 +14,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Подключение роутов
-app.include_router(api_router_v1)
+# Подключерие роутов
+app.include_router(api_router)

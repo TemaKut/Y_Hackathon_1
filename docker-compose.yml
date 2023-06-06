@@ -29,6 +29,13 @@ services:
             POSTGRES_DB: "postgres"
             POSTGRES_USER: "postgres"
             POSTGRES_PASSWORD: "postgres"
+    
+    ds:
+        build: './ds'
+        container_name: ds
+        restart: always
+        ports:
+            - 8002:8000
 
     mock:
         build: './yandex_mock_server'
