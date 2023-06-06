@@ -10,7 +10,7 @@ class Item(BaseModel):
     size2: float
     size3: float
     weight: float
-    cargotypes: list[int]
+    cargotypes: list[float]
 
 
 class OrderFromBackend(BaseModel):
