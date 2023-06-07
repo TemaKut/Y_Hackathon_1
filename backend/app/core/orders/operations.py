@@ -13,17 +13,37 @@ class OrdersOperations():
         """ Инициализация объекта класса. """
         self.storage_ym = StorageYM()
 
-    async def get_info_about_order(self, orderkey: str) -> dict:
-        """ Получить обогощённую информацию о заказе. """
+    async def get_order_products(self, orderkey: str) -> list[dict]:
+        """ Получить обогощённую информацию о товарах в заказе. """
         # Получить заказ и компактизировать его до уникальных значений
         order_multi: list = await self.storage_ym.get_list_of_order(orderkey)
-        unique_products: list = await self._to_unique_products(order_multi)
-        size_cargo: dict = await self.get_size_and_cargo_for_products(
-            unique_products,
-        )
-        print(size_cargo)
+        unique_products: dict = await self._to_unique_products(order_multi)
 
-    async def get_size_and_cargo_for_products(self, products: list) -> dict:
+        # Запросить сотпутствующую информацию к каждому из уникальных товаров
+        size_cargo: dict = await self._get_size_and_cargo_for_products(
+            list(unique_products.values()),
+        )
+
+        # Добавить размеры для каждого уз уникальных товаров (Мутация объекта)
+        for sizes in size_cargo.get('sizes'):
+            sku: str = sizes.get('sku')
+            unique_products[sku] = unique_products[sku] | sizes
+
+        # Добавить карготипы к уникальным продуктам (Мутация объекта)
+        for cargo in size_cargo.get('cargotypes'):
+            sku: str = cargo.get('sku')
+            cargotype: list = [cargo.get('cargotype')]
+            product: dict = unique_products[sku]
+
+            if product.get('cargotypes'):
+                product['cargotypes'] += cargotype
+
+            else:
+                product['cargotypes'] = cargotype
+
+        return list(unique_products.values())
+
+    async def _get_size_and_cargo_for_products(self, products: list) -> dict:
         """
         Из уникальных продуктов выбрать skus для дальнейших запросов
         и асинхронно сделать запросы на получение размеров и карготипов
@@ -50,7 +70,7 @@ class OrdersOperations():
 
         return {'sizes': sizes, 'cargotypes': cargotypes}
 
-    async def _to_unique_products(self, order_multi: list) -> list:
+    async def _to_unique_products(self, order_multi: list) -> dict:
         """ Разделить список не уникальных товаров в заказе на уникальные """
 
         if not order_multi:
@@ -68,4 +88,4 @@ class OrdersOperations():
             else:
                 unique_products[sku] = product | {'count': 1}
 
-        return list(unique_products.values())
+        return unique_products

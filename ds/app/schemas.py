@@ -1,20 +1,20 @@
 from pydantic import BaseModel
 
 
-class Item(BaseModel):
-    """ Схема данных продукта """
+class ProductToPredict(BaseModel):
+    """ Схема данных продукта перед предсказанием модели. """
 
-    sku: str
+    a: float
+    b: float
+    box_num: int = None
+    c: float
+    cargotypes: list[int]
+    cell_name: str = None
     count: int
-    size1: float
-    size2: float
-    size3: float
-    weight: float
-    cargotypes: list[float]
-
-
-class OrderFromBackend(BaseModel):
-    """ Схема получаемых данных от бэка (Заказ). """
-
+    goods_wght: float
     orderkey: str
-    items: list[Item]
+    pack_volume: int
+    rec_calc_cube: int
+    sel_calc_cube: int
+    sku: str = None
+    trackingid: str = None

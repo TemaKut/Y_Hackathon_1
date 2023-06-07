@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 
-from app.core.orders.operations import OrdersOperations
+from app.external.ds import DsAPI
 
 
 orders_router = APIRouter(
@@ -18,9 +18,9 @@ orders_router = APIRouter(
 )
 async def predict_package_by_orderkey(
     orderkey: str,
-    operations: OrdersOperations = Depends(),
+    ds_api: DsAPI = Depends(),
 ):
     """ Предсказать упаковку(и) для заказа. """
-    await operations.get_info_about_order(orderkey)
+    await ds_api.predict_package(orderkey)
 
     return 1
