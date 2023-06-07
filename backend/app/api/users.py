@@ -9,6 +9,7 @@ users_router = APIRouter(prefix='/users', tags=['Users'])
 
 @users_router.get(
     '/me',
+    name='users_me',
     response_model=UserRepresentation,
     responses={
         401: {'description': 'Error with token (Anauthorized)'},

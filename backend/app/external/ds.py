@@ -20,6 +20,8 @@ class DsAPI():
             orderkey,
         )
 
+        print(products)
+
         async with AsyncClient() as client:
             response: Response = await client.post(url, json=products)
             print(response)
