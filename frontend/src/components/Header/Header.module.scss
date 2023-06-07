@@ -1,0 +1,116 @@
+.header {
+    padding: 13px 24px 17px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'YS Text';
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+}
+
+.header__hamburger {
+    margin-right: 24px;
+    background-image: url(../../images/burger.svg);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: auto;
+    width: 82px;
+    height: 82px;
+}
+
+.header__logoYandex {
+    margin-right: 3.5px;
+    width: 43px;
+    height: 43px;
+}
+
+.header__logoMarket {
+    margin-right: 10px;
+    width: 43px;
+    height: 43px;
+}
+
+.header__logoService {
+    margin-top: 2px;
+    width: 112px;
+    height: 48px;
+}
+
+.header__title {
+    position: relative;
+    left: 52px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 31px;
+    text-align: center;
+    letter-spacing: -0.015em;
+}
+
+.userStatistics {
+    margin-top: 4px;
+    display: flex;
+}
+
+.info {
+    padding: 0 9px 0 20px;
+    display: flex;
+    border: 4px solid #FED42B;
+    border-radius: 24px;
+    align-items: center;
+
+}
+
+.info__user {
+    margin: 0;
+    margin-right: 30px;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 26px;
+    letter-spacing: -0.01em;
+}
+
+.efficiency {
+    margin: 7px 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 24px;
+    align-items: center;
+    width: 75px;
+    height: 50px;
+    background: #2AAD2E;
+    border-radius: 100px;
+}
+
+.efficiency__logo {
+    background-image: url(../../images/Union.svg);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    align-self: center;
+    width: 24px;
+    height: 24px;
+}
+
+.efficiency__percent {
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 26px;
+    letter-spacing: -0.01em;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+}
+
+.header__moreButton {
+    margin-left: 18px;
+    background-image: url(../../images/MoreVertical.svg);
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: auto;
+    width: 72px;
+    height: 72px;
+}

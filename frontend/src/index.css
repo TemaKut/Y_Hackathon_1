@@ -1,5 +1,7 @@
 @import url(./vendor/normalize.css);
 @import url(./vendor/fonts/YS/YS.css);
+/* @use './vendor/normalize.css';
+ @use './vendor/fonts/YS/YS.css'; */
 
 body {
   margin: 0;
