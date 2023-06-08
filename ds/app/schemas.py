@@ -6,11 +6,11 @@ class Item(BaseModel):
 
     sku: str
     count: int
-    size1: float
-    size2: float
-    size3: float
-    weight: float
-    cargotypes: list[int]
+    a: float
+    b: float
+    c: float
+    goods_wght: float
+    cargotypes: list[float]
 
 
 class OrderFromBackend(BaseModel):
