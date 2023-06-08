@@ -43,6 +43,19 @@ class OrdersOperations():
 
         return list(unique_products.values())
 
+    async def is_sku_in_order(self, orderkey: str, sku: str) -> bool:
+        """ Есть ли sku в конкретном заказе. """
+        all_products: list = await self.storage_ym.get_list_of_order(orderkey)
+
+        for product in all_products:
+            product_sku: str = product.get('sku')
+
+            if sku == product_sku:
+
+                return True
+
+        return False
+
     async def _get_size_and_cargo_for_products(self, products: list) -> dict:
         """
         Из уникальных продуктов выбрать skus для дальнейших запросов
