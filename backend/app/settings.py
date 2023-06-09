@@ -16,6 +16,10 @@ DEBUG: bool = True
 # Секретный ключ приложения
 SECRET_KEY: str = os.getenv('SECRET_KEY')
 
+# Настройки JWT токена
+JWT_ALGORITHM: str = os.getenv('JWT_ALGORITHM')
+JWT_EXPIRE_MIN: int = int(os.getenv('JWT_EXPIRE_MIN'))
+
 # Подключение к БД
 DB_USER: str = os.getenv("DB_USER")
 DB_PASSWORD: str = os.getenv("DB_PASSWORD")

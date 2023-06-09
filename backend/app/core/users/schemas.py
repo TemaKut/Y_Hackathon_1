@@ -1,11 +1,15 @@
 from pydantic import BaseModel
 
 
-class UserRepresentation(BaseModel):
-    """ Данные о пользователе при ответе сервера. """
+class UserRegister(BaseModel):
+    """ Схема данных пользователя для регистрации. """
 
-    id: str
     username: str
+    password: str
 
-    class Config:
-        orm_mode: bool = True
+
+class TokenRepresentation(BaseModel):
+    """ Визуализация токена пользователя. """
+
+    token: str
+    token_type: str = 'Bearer'

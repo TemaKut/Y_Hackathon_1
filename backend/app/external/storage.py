@@ -79,28 +79,3 @@ class StorageYM():
             raise HTTPException(status.HTTP_400_BAD_REQUEST, 'Order not found')
 
         return orders
-
-    async def get_current_user_from_ym(self, token: str) -> dict:
-        """ Получить текущего пользователя с сервера YM """
-        url: str = f'{self.YM_DOMAIN}/users/me'
-
-        async with AsyncClient() as client:
-
-            try:
-                response: Response = await client.post(
-                    url,
-                    json={'token': token},
-                )
-                user = json.loads(response.text)
-
-            except Exception as e:
-                log.critical(f'Error with get current user from YM server {e}')
-                raise HTTPException(
-                    status.HTTP_503_SERVICE_UNAVAILABLE,
-                    'Error with get current user from YM server'
-                )
-
-        if not user:
-            raise HTTPException(status.HTTP_400_BAD_REQUEST, 'User not found')
-
-        return user

@@ -1,25 +1,29 @@
-from fastapi import Request, HTTPException, status
+from datetime import datetime, timedelta
 
-from app.external.storage import StorageYM
-from app.logs.logger import log
+from jose import jwt
+
+from app.core.users.models import User
+from app.core.users.schemas import TokenRepresentation
+from app.settings import SECRET_KEY, JWT_ALGORITHM, JWT_EXPIRE_MIN
+# from app.logs.logger import log
 
 
-async def get_current_user(request: Request) -> dict:
-    """ Получить объект пользователя, выполневшего запрос отвервера YM. """
-    error: HTTPException = HTTPException(
-        status.HTTP_401_UNAUTHORIZED,
-        'Not authorized.',
+async def create_token(user: User) -> TokenRepresentation:
+    """ Создать токен для пользователя. """
+    assert isinstance(user, User), 'Not a User class'
+
+    now: datetime = datetime.utcnow()
+    data: dict = {
+        "iat": now,
+        "exp": now + timedelta(minutes=JWT_EXPIRE_MIN),
+        'user_id': user.id,
+    }
+
+    # Кодирование данных в токен
+    token: str = jwt.encode(
+        data,
+        key=SECRET_KEY,
+        algorithm=JWT_ALGORITHM,
     )
 
-    # Получение токена авторизации из хедеров запроса
-    try:
-        token: str = request._headers.get('authorization').split(' ')[1]
-
-    except Exception as e:
-        log.error(f'Token not in headers. {e}')
-        raise error
-
-    storage: StorageYM = StorageYM()
-    user: dict = await storage.get_current_user_from_ym(token)
-
-    return user
+    return TokenRepresentation(token=token)

@@ -8,21 +8,53 @@ from app.main import app
 
 
 @pytest.mark.parametrize(
-    'token, code',
+    'data, code',
     [
-        ('Bearer sometoken', status.HTTP_200_OK),
-        ('', status.HTTP_401_UNAUTHORIZED),
+        (
+            {
+                'username': 'Artemka123',
+                'password': 'superlongpass',
+            },
+            status.HTTP_200_OK,
+        ),
+        (
+            {},
+            status.HTTP_422_UNPROCESSABLE_ENTITY
+        ),
+        (
+            {
+                'username': '',
+                'password': 'superlongpass',
+            },
+            status.HTTP_400_BAD_REQUEST,
+        ),
+        (
+            {
+                'username': 'Artemka123',
+                'password': '',
+            },
+            status.HTTP_400_BAD_REQUEST,
+        ),
     ],
 )
-async def test_200_get_user_data(client: AsyncClient, token: str, code: int):
-    """ Статус 200 при запросе текущего пользователя с токеном. """
-    url: str = app.url_path_for('users_me')
-    headers: dict = {'Authorization': token}
+async def test_register_user(client: AsyncClient, data, code):
+    """ Регистрация пользователя """
+    url: str = app.url_path_for('register_user')
 
-    response: Response = await client.get(url, headers=headers)
-
+    response: Response = await client.post(url, json=data)
     assert response.status_code == code
 
-    if code == status.HTTP_200_OK:
-        response_data: dict = json.loads(response.text)
-        assert response_data.get('id') and response_data.get('username')
+
+async def test_get_token_after_register(client):
+    """ Получение токена сразу после регистрации. """
+    url: str = app.url_path_for('register_user')
+    data: dict = {
+        'username': 'Artemka123',
+        'password': 'superlongpass',
+    }
+
+    response: Response = await client.post(url, json=data)
+    assert response.status_code == status.HTTP_200_OK
+
+    response_data: dict = json.loads(response.text)
+    assert response_data.get('token') and response_data.get('token_type')

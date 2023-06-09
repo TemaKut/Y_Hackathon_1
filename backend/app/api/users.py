@@ -1,22 +1,26 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Body, Depends
 
-from app.core.users.auth import get_current_user
-from app.core.users.schemas import UserRepresentation
-
-
-users_router = APIRouter(prefix='/users', tags=['Users'])
+from app.core.users.schemas import UserRegister, TokenRepresentation
+from app.core.users.operations import UsersOperations
 
 
-@users_router.get(
-    '/me',
-    name='users_me',
-    response_model=UserRepresentation,
-    responses={
-        401: {'description': 'Error with token (Anauthorized)'},
-        503: {'description': 'YM server unaviable.'},
-    }
+users_router: APIRouter = APIRouter(
+    prefix='/users',
+    tags=['Users'],
 )
-async def get_info_about_me(user: dict = Depends(get_current_user)):
-    """ Получить информацию о текущем пользователе. """
 
-    return user
+
+@users_router.post(
+    '/register',
+    response_model=TokenRepresentation,
+    responses={
+        400: {'description': 'User alredy exists'},
+    },
+)
+async def register_user(
+    data: UserRegister = Body(),
+    operations: UsersOperations = Depends(),
+):
+    """ Регистрация пользователя. """
+
+    return await operations.register_user(data)
