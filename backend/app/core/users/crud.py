@@ -1,6 +1,8 @@
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, NoResultFound
+from sqlalchemy.sql.selectable import Select
+from sqlalchemy import select
 
 from app.database.connection import get_async_session
 from app.core.users.schemas import UserRegister
@@ -29,5 +31,19 @@ class UsersCrud():
                 status.HTTP_400_BAD_REQUEST,
                 'User alredy exists',
             )
+
+        return user
+
+    async def get_user_by_params(self, params: dict):
+        """ Получить пользователя по параметрам. """
+        query: Select = select(User).filter_by(**params)
+        result = await self.session.execute(query)
+
+        try:
+            user: User = result.scalar_one()
+
+        except NoResultFound:
+            log.error('User not found')
+            raise HTTPException(status.HTTP_404_NOT_FOUND, 'User not found')
 
         return user

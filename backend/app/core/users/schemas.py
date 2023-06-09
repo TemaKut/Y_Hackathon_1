@@ -8,6 +8,13 @@ class UserRegister(BaseModel):
     password: str
 
 
+class UserGetToken(BaseModel):
+    """ Схема данных для получения токена пользователя. """
+
+    username: str
+    password: str
+
+
 class TokenRepresentation(BaseModel):
     """ Визуализация токена пользователя. """
 

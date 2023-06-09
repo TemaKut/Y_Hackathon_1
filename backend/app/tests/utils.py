@@ -1,7 +1,10 @@
+from copy import deepcopy
 from functools import wraps
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.sql.selectable import Select
+from sqlalchemy.exc import NoResultFound, IntegrityError
 
 from app.core.users.models import User
 from app.tests.conftest import Session
@@ -23,12 +26,19 @@ def add_session_in_params(function):
 
 
 @add_session_in_params
-async def get_user_from_db(session, user_data: dict) -> bool:
+async def get_user_from_db(session, data: dict) -> bool:
     """ Проверить есть ли пользователь в БД. """
-    query = select(User).filter_by(**user_data)
-    result = await session.execute(query)
+    data: dict = deepcopy(data)
+    if data.get('password'):
+        data.pop('password')
 
-    user: User = result.scalars().unique().first()
+    try:
+        query: Select = select(User).filter_by(**data)
+        result = await session.execute(query)
+        user: User = result.scalar_one()
+
+    except NoResultFound:
+        assert False, 'User not found'
 
     return user
 
@@ -36,11 +46,21 @@ async def get_user_from_db(session, user_data: dict) -> bool:
 @add_session_in_params
 async def create_user(session, data: dict) -> User:
     """ Создать пользователя напрямую через БД. """
-    new_user: User = User(**data)
 
-    session.add(new_user)
+    try:
+        new_user: User = User(**data)
+        session.add(new_user)
+        await session.commit()
+        await session.refresh(new_user)
 
-    await session.commit()
-    await session.refresh(new_user)
+    except IntegrityError:
+        assert False, 'Userr not created'
 
     return new_user
+
+
+async def create_and_check_user(data: dict) -> User:
+    """ Создать пользователя в БД и проверить появился ли он в БД. """
+    await create_user(data)
+
+    return await get_user_from_db(data)
