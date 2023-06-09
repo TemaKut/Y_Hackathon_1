@@ -1,18 +1,20 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import Style from './Products.module.scss';
-// import imgSucces from '../../images/succes.png';
-
+import Cell from '../Cell/Cell';
 
 function Products() {
 
     return (
-        <container className={Style.products}>
-            <div className={Style.specs}>
-                <span className={`${Style.products__amount} ${Style.spec}`}>6 товаров</span>
-                <span className={`${Style.products__delivery} ${Style.spec}`}>Почта России</span>
-            </div>
-        </container >
+        <>
+            <Cell />
+            <container className={Style.products}>
+                <div className={Style.specs}>
+                    <span className={`${Style.products__amount} ${Style.spec}`}>6 товаров</span>
+                    <span className={`${Style.products__delivery} ${Style.spec}`}>Почта России</span>
+                </div>
+            </container >
+        </>
     );
 }
 
