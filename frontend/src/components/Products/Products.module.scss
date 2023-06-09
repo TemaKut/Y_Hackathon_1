@@ -1,0 +1,28 @@
+.products {
+    display: flex;
+    margin-top: 12px;
+    top: 164px;
+    position: absolute;
+}
+
+.specs {
+    display: flex;
+}
+
+.spec {
+    padding: 10.5px 24px;
+    background: #F3F0E9;
+    border-radius: 100px;
+    font-family: 'YS Text';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 27px;
+    letter-spacing: -0.01em;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #212121;
+
+    &:last-child {
+        margin-left: 16px;
+    }
+}

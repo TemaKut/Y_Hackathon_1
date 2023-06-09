@@ -1,0 +1,27 @@
+.final {
+    padding-top: 97px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    height: 100%;
+    align-items: center;
+}
+
+.final__title {
+    margin: 0px 0 30px;
+    font-family: 'YS Display';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 135%;
+    letter-spacing: 0.02em;
+    text-align: center;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #212121;
+
+}
+
+
+.package__img {
+    display: block;
+}
