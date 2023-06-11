@@ -44,7 +44,6 @@ function App() {
   }
 
   function rightSideClick() {
-    navigate('/package');
     if (['/'].includes(location.pathname)) {
       navigate('/');
     }
@@ -62,7 +61,7 @@ function App() {
       <main className={Style.content}>
         {showLefSide && <LeftSide />}
         <Routes>
-          <Route exact path="/" element={<Main />} />
+          <Route exact path="/" element={<Main isStart={isStart} />} />
           <Route exact path="/products" element={<Products />} />
           <Route exact path="/package" element={<Package />} />
           <Route exact path="/final" element={<Final />} />

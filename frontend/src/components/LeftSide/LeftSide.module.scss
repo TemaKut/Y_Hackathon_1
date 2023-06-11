@@ -1,3 +1,10 @@
+.container {
+    display: grid;
+    position: absolute;
+    left: 0;
+    grid-row-gap: 28px;
+}
+
 .problem {
     padding: 0;
     font-family: 'YS Display';
@@ -13,6 +20,26 @@
     cursor: pointer;
     position: absolute;
     left: 0;
+    transition: .3s ease-in-out;
+
+    &:hover {
+        background: #DEDEDE;
+    }
+}
+
+.package {
+    padding: 39.5px 20px;
+    font-family: 'YS Text';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 44px;
+    letter-spacing: -0.02em;
+    width: 296px;
+    background: #F3F0E9;
+    border-radius: 24px;
+    border: none;
+    cursor: pointer;
     transition: .3s ease-in-out;
 
     &:hover {
