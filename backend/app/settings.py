@@ -44,7 +44,7 @@ DB_URL_TEST: str = (
 )
 
 # Домен сервера Яндекс Маркета
-YM_DOMAIN: str = 'http://localhost:8001'
+YM_DOMAIN: str = 'http://localhost:8001' if DEBUG else os.getenv("YM_DOMAIN")
 
 # Домен сервера DS
-DS_DOMAIN: str = 'http://localhost:8002'
+DS_DOMAIN: str = 'http://localhost:8002' if DEBUG else os.getenv("DS_DOMAIN")

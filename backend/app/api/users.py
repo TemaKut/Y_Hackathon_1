@@ -1,8 +1,11 @@
 from fastapi import APIRouter, Body, Depends
 
 from app.core.users.operations import UsersOperations
+from app.core.users.auth import get_current_user
+from app.core.users.models import User
 from app.core.users.schemas import (
     UserRegister,
+    UserRepresentstion,
     TokenRepresentation,
     UserGetToken,
 )
@@ -47,8 +50,11 @@ async def get_token(
     return await operations.get_token(data)
 
 
-@users_router.get('/me')
-async def get_info_about_me():
+@users_router.get(
+    '/me',
+    response_model=UserRepresentstion,
+)
+async def get_info_about_me(user: User = Depends(get_current_user)):
     """ Получить информацию о пользователе, сделавшем запрос. """
-    # TODO: Доделать получение пользователя из параметров и формат отдачи
-    return 1
+
+    return user

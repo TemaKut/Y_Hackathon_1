@@ -115,3 +115,33 @@ async def test_get_token_for_registred_user(
         response_data: dict = json.loads(response.text)
 
         assert response_data.get('token') and response_data.get('token_type')
+
+
+async def test_users_me(client):
+    """ Эндпоинт получения информации о пользователе выполневшего запрос. """
+    url_token: str = app.url_path_for('get_token')
+    url: str = app.url_path_for('get_info_about_me')
+
+    user_data: dict = {
+        "username": "someusername",
+        "password": "somepassword",
+    }
+
+    # Создать пользователя в БД
+    await create_and_check_user(user_data)
+
+    # Получить токен при помощи данных пользователя
+    response: Response = await client.post(url_token, json=user_data)
+    assert response.status_code == status.HTTP_200_OK
+
+    response_data: dict = json.loads(response.text)
+    token: str = response_data.get('token')
+    token_type: str = response_data.get('token_type')
+
+    assert token and token_type
+
+    # Запрос на эндпоинт получения информации о себе с токеном
+    auth_header = {'Authorization': f'{token_type} {token}'}
+    response = await client.get(url, headers=auth_header)
+
+    assert response.status_code == status.HTTP_200_OK

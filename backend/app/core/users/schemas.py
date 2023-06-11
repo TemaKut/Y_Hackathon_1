@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 
 
@@ -13,6 +15,18 @@ class UserGetToken(BaseModel):
 
     username: str
     password: str
+
+
+class UserRepresentstion(BaseModel):
+    """ Данные пользователя при ответе сервера. """
+
+    id: int
+    username: str
+    registred_at: datetime
+    is_active: bool
+
+    class Config():
+        orm_mode = True
 
 
 class TokenRepresentation(BaseModel):

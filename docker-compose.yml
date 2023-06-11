@@ -48,7 +48,8 @@ services:
     backend:
         build: './backend'
         container_name: backend
-        command: sh -c "uvicorn app.main:app --host 0.0.0.0 --port 8000"
+        command: > 
+            sh -c "cd app/database && ((alembic revision --autogenerate && alembic upgrade head) || alembic upgrade head || echo 'False with migrations') && cd ../.. && uvicorn app.main:app --host 0.0.0.0 --port 8000"
         restart: always
         depends_on:
             - db_test
@@ -63,13 +64,18 @@ services:
             - SECRET_KEY=somesecretkey
             - JWT_ALGORITHM=HS256
             - JWT_EXPIRE_MIN=10000
+
+            - YM_DOMAIN=mock:8001
+            - DS_DOMAIN=ds:8002
+
             - DB_USER=postgres
             - DB_PASSWORD=postgres
             - DB_NAME=postgres
             - DB_HOST=db
             - DB_PORT=5432
+
             - DB_USER_TEST=postgres_test
             - DB_PASSWORD_TEST=postgres_test
             - DB_NAME_TEST=postgres_test
-            - DB_HOST_TEST=localhost
+            - DB_HOST_TEST=db_test
             - DB_PORT_TEST=5433
