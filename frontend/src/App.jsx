@@ -30,11 +30,9 @@ function App() {
   function keyboardClick() {
     if (['/'].includes(location.pathname)) {
       navigate('/products');
-    }
-    else if (['/products'].includes(location.pathname)) {
+    } else if (['/products'].includes(location.pathname)) {
       navigate('/package');
-    }
-    else if (['/package'].includes(location.pathname)) {
+    } else if (['/package'].includes(location.pathname)) {
       navigate('/final');
     }
   }
@@ -47,17 +45,15 @@ function App() {
     navigate('/package');
     if (['/'].includes(location.pathname)) {
       navigate('/');
-    }
-    else if (['/products'].includes(location.pathname)) {
+    } else if (['/products'].includes(location.pathname)) {
       navigate('/package');
-    }
-    else if (['/final'].includes(location.pathname)) {
+    } else if (['/final'].includes(location.pathname)) {
       navigate('/');
     }
   }
 
   return (
-    <div className="App">
+    <div className={Style.app}>
       <Header />
       <main className={Style.content}>
         {showLefSide && <LeftSide />}
@@ -67,9 +63,20 @@ function App() {
           <Route exact path="/package" element={<Package />} />
           <Route exact path="/final" element={<Final />} />
         </Routes>
-        {showRightSide && <RightSide rightSideClick={rightSideClick} isFinal={isFinal} isStart={isStart} />}
+        {showRightSide && (
+          <RightSide
+            rightSideClick={rightSideClick}
+            isFinal={isFinal}
+            isStart={isStart}
+          />
+        )}
       </main>
-      <Footer goBack={goBack} keyboardClick={keyboardClick} isFinal={isFinal} isStart={isStart} />
+      <Footer
+        goBack={goBack}
+        keyboardClick={keyboardClick}
+        isFinal={isFinal}
+        isStart={isStart}
+      />
     </div>
   );
 }
