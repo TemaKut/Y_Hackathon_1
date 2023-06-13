@@ -1,12 +1,12 @@
 from fastapi import Depends
 
+from app.core.users.auth import create_token
 from app.core.users.crud import UsersCrud
 from app.core.users.models import User
-from app.core.users.auth import create_token
 from app.core.users.schemas import (
-    UserRegister,
     TokenRepresentation,
     UserGetToken,
+    UserRegister
 )
 
 
@@ -28,7 +28,7 @@ class UsersOperations():
         password: str = data.pop('password')
 
         # Получить пользователя (Данные без пароля)
-        user: user = await self.crud.get_user_by_params(data)
+        user: User = await self.crud.get_user_by_params(data)
 
         # Сравнить переданный пароль с его хэшем в БД
         user.verify_password(password)

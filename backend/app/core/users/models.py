@@ -1,10 +1,10 @@
 import string
 
-from fastapi import HTTPException, status
 import sqlalchemy as sa
-from sqlalchemy.sql import func
-from sqlalchemy.orm import validates
+from fastapi import HTTPException, status
 from passlib.hash import bcrypt
+from sqlalchemy.orm import validates
+from sqlalchemy.sql import func
 
 from app.database.connection import Base
 from app.logs.logger import log
@@ -12,6 +12,7 @@ from app.logs.logger import log
 
 class User(Base):
     """ Модель пользователя. """
+
     __tablename__: str = 'users'
 
     id = sa.Column(
@@ -79,7 +80,7 @@ class User(Base):
 
     @validates('password')
     def password_validate(self, key, value: str):
-        """ Хэширование пароля. """
+        """ Хеширование пароля. """
 
         if len(value) <= 4:
             log.error('Invalid password by length')

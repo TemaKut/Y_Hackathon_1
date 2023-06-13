@@ -10,6 +10,7 @@ from app.settings import SECRET_KEY, JWT_ALGORITHM, JWT_EXPIRE_MIN
 
 async def create_token(user: User) -> TokenRepresentation:
     """ Создать токен для пользователя. """
+
     assert isinstance(user, User), 'Not a User class'
 
     now: datetime = datetime.utcnow()

@@ -2,14 +2,14 @@ import asyncio
 
 import pytest
 from httpx import AsyncClient
-from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio import (
     create_async_engine, AsyncSession, AsyncEngine
 )
+from sqlalchemy.orm import sessionmaker
 
-from app.main import app
-from app.database.connection import get_async_session
 from app.core.users.models import User
+from app.database.connection import get_async_session
+from app.main import app
 from app.settings import DB_URL_TEST
 
 
@@ -22,9 +22,9 @@ Session: AsyncSession = sessionmaker(
 )
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope='session')
 def event_loop():
-    """ Дополнительный event loop для тестов """
+    """ Дополнительный event loop для тестов. """
     loop = asyncio.get_event_loop_policy().new_event_loop()
     yield loop
     loop.close()
@@ -36,7 +36,7 @@ async def client():
 
     async def get_async_session_new() -> AsyncSession:
         """ Получить объект асинхронной сессии БД, а следом закрыть её. """
-        session = Session()
+        session = Session
 
         try:
             yield session

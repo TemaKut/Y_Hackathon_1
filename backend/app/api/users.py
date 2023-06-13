@@ -2,9 +2,9 @@ from fastapi import APIRouter, Body, Depends
 
 from app.core.users.operations import UsersOperations
 from app.core.users.schemas import (
-    UserRegister,
     TokenRepresentation,
     UserGetToken,
+    UserRegister
 )
 
 
@@ -18,7 +18,7 @@ users_router: APIRouter = APIRouter(
     '/register',
     response_model=TokenRepresentation,
     responses={
-        400: {'description': 'User alredy exists'},
+        400: {'description': 'User already exists'},
     },
 )
 async def register_user(
@@ -50,5 +50,6 @@ async def get_token(
 @users_router.get('/me')
 async def get_info_about_me():
     """ Получить информацию о пользователе, сделавшем запрос. """
+
     # TODO: Доделать получение пользователя из параметров и формат отдачи
     return 1

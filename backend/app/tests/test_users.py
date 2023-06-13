@@ -39,7 +39,7 @@ from app.tests.utils import create_and_check_user
     ],
 )
 async def test_register_user(client: AsyncClient, data: dict, code: int):
-    """ Регистрация пользователя """
+    """ Регистрация пользователя. """
     url: str = app.url_path_for('register_user')
 
     response: Response = await client.post(url, json=data)

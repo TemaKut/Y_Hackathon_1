@@ -4,7 +4,7 @@ from app.core.orders.operations import OrdersOperations
 from app.settings import DS_DOMAIN
 
 
-class DsAPI():
+class DsAPI:
     """
     Взаимодействие с внешним сервисом Data Science посредством его api
     """

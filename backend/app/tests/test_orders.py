@@ -1,8 +1,8 @@
 import json
 
 import pytest
-from httpx import Response, AsyncClient
 from fastapi import status
+from httpx import AsyncClient, Response
 
 from app.main import app
 
@@ -23,7 +23,7 @@ async def test_get_detailed_products_in_order(client: AsyncClient):
 async def test_detailed_products_in_order_with_nonexisting_orderkey(
     client: AsyncClient,
 ):
-    """Проверка ошибок при получении продуктов заказа"""
+    """ Проверка ошибок при получении продуктов заказа. """
     orderkey: str = 'nonexistingorderkey'
     url: str = app.url_path_for(
         'get_products_of_order',
@@ -64,7 +64,7 @@ async def test_is_sku_in_order(
     code: int,
     is_in: bool
 ):
-    """ Проверка корректности получения ответа есть ли sku в заказе """
+    """ Проверка корректности получения ответа есть ли sku в заказе. """
     url: str = app.url_path_for(
         'is_sku_in_order',
         orderkey=orderkey,

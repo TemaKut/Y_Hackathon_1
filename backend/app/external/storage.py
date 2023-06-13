@@ -3,19 +3,19 @@ import json
 from fastapi import HTTPException, status
 from httpx import AsyncClient, Response
 
-from app.settings import YM_DOMAIN
 from app.logs.logger import log
+from app.settings import YM_DOMAIN
 
 
 class StorageYM():
-    """ Взаимодействие с внешними сервисами Яндекс маркета """
+    """ Взаимодействие с внешними сервисами Яндекс маркета. """
 
     def __init__(self):
         """ Инициализация объекта класса. """
         self.YM_DOMAIN = YM_DOMAIN
 
     async def get_cargotypes_for_skus(self, skus: list[str]) -> list[dict]:
-        """ Получить список крготипов для кадого из sku """
+        """ Получить список крготипов для каждого из sku. """
         url: str = f'{self.YM_DOMAIN}/sku/cargotypes'
 
         async with AsyncClient() as client:
@@ -37,7 +37,7 @@ class StorageYM():
         return cargotypes
 
     async def get_sizes_for_skus(self, skus: list[str]) -> list[dict]:
-        """ Получить список с расширенной информацией о skus (Их размер) """
+        """ Получить список с расширенной информацией о skus (Их размер). """
         url: str = f'{self.YM_DOMAIN}/sku/'
 
         async with AsyncClient() as client:
@@ -59,7 +59,7 @@ class StorageYM():
         return sizes
 
     async def get_list_of_order(self, orderkey: str) -> list[dict] | list:
-        """ Получить список записей о заказе от сервера YM """
+        """ Получить список записей о заказе от сервера YM. """
         url: str = f'{self.YM_DOMAIN}/orders/{orderkey}'
 
         async with AsyncClient() as client:

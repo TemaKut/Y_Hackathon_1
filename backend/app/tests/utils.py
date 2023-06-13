@@ -11,7 +11,7 @@ from app.tests.conftest import Session
 
 
 def add_session_in_params(function):
-    """ Декоратор. Добавляет объект сессии БД в аргументы """
+    """ Декоратор. Добавляет объект сессии БД в аргументы. """
 
     @wraps(function)
     async def wrapper(*args, **kwargs):

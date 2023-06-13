@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 
-from app.external.ds import DsAPI
 from app.core.orders.operations import OrdersOperations
 from app.core.orders.schemas import Product
+from app.external.ds import DsAPI
 
 
 orders_router = APIRouter(
@@ -17,14 +17,14 @@ orders_router = APIRouter(
     response_model=list[Product],
     responses={
         400: {'description': 'Incorrect orderkey or another data'},
-        503: {'description': 'YM server unaviable.'},
+        503: {'description': 'YM server unavailable.'},
     },
 )
 async def get_products_of_order(
     orderkey: str,
     operations: OrdersOperations = Depends(),
 ):
-    """ Получить список продуктов, которые принадлежать заказу с orderkey """
+    """ Получить список продуктов, которые принадлежать заказу с orderkey. """
 
     return await operations.get_order_products(orderkey)
 
@@ -41,6 +41,7 @@ async def predict_package_by_orderkey(
     ds_api: DsAPI = Depends(),
 ):
     """ Предсказать упаковку(и) для заказа. """
+
     await ds_api.predict_package(orderkey)
     # TODO: После того как DS доделают модель - отдать результат
     return 1

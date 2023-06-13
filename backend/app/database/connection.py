@@ -1,9 +1,8 @@
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 from app.settings import DB_URL
 from app.logs.logger import log
-
 
 # При создании таблицы БД -> наследоваться от этого объекта
 Base = declarative_base()
