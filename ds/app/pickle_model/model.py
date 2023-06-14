@@ -1,17 +1,9 @@
-import json
-import os
-import pandas as pd
-import numpy as np
-import pickle
-from pickle import dump, load
-import requests
-
 def predict(x):
-    """Функция принимает на вход запрос, обученную модель,
+    """Функция принимает на вход json запрос, обученную модель,
     выполняет преобразование признаков и предсказание"""    
     
     #загрузка модели
-    with open('model_lgbm.pcl', 'rb') as fid:
+    with open('model_lgbm_test1.pcl', 'rb') as fid:
         model = pickle.load(fid)
     
     #названия столбцов из тренировочного датасета
@@ -64,29 +56,25 @@ def predict(x):
                              'cargotypes': types})
     
     #фнукция добавляет 1 в соотвествующий товару карготип
-    def make_type(df):
+    def make_types(df):
         pivoted = pd.pivot_table(df.assign(val=1), values='val', index=['sku'], columns=['cargotypes'], 
                                  aggfunc=lambda x: 1, fill_value=0)
-        
         pivoted.columns = ['type_' + str(x) if x!='sku' else x for x in pivoted.columns]
+        #сбросим индексы
         pivoted_def = pivoted.reset_index()
         return pivoted_def
     
-    #функция объединения датафреймов
-    def merge_df(df, pivoted_def):
-        df = pd.merge(df, pivoted_def, on=['sku'])
+    def merge_data(df):
+        pivoted = make_types(df)
+        df = pd.merge(df, pivoted, on=['sku'])
         df = df.drop(['cargotypes'], axis=1)
         df = df.drop_duplicates()
         return df
     
-    #функция преобразования признаков
-    def transform_x(df):
-        pivoted = make_type(df)
-        df_n = merge_df(df, pivoted)
-        return df_n
     
     #преобразование признаков x из запроса
-    df_for_model = transform_x(new_data)
+    df_for_model = merge_data(new_data)
+    
     
     #находим отсутствующие признаки (разница между трейном и запросом)
     col = [item for item in col if item not in df_for_model.columns]
@@ -95,20 +83,48 @@ def predict(x):
     temp = pd.DataFrame(0, index=np.arange(len(df_for_model)), columns=col)
     
     #объединие признаков
-    x = pd.concat([df_for_model, temp.reindex(df_for_model.index)], axis=1)
+    x_temp = pd.concat([df_for_model, temp.reindex(df_for_model.index)], axis=1)
     
     #заполнение пропусков
-    x = x.fillna(0)
+    x_temp = x_temp.fillna(0)
     
+    #создадим идентификатор заказа для группировки
+    x_temp['order'] = 1
+    
+    #скопируем датафрейм
+    x_part_1 = x_temp.copy()
+    
+    #создадим промежуточный датафрейм для сохранения статистических данных о sku
+    temp_features = x_temp.loc[:,['a', 'b', 'c', 'goods_wght']]
+    
+    #создадим новые признаки в соответствии с обучащими данными
+    temp_features = feature_volume(temp_features)
+    temp_features = new_group_features(temp_features)
+    
+    #заменим признак с объемом каждого товара на общий объем заказа
+    temp_features['volume'] = temp_features['volume'].sum()
+    
+    #оставим одну строку с данными по одному заказу
+    temp_features = (temp_features
+                     .drop(['a', 'b', 'c', 'goods_wght'], axis=1)
+                     .drop_duplicates())
+
+    #сгруппируем данные об sku для целого заказа
+    x = x_part_1.groupby('order').sum()
+    x = x.reset_index(drop=True)
+    
+    #соединим данные по заказу со статистическими признаками для sku в заказе
+    x = pd.concat([x, temp_features.reindex(x.index)], axis=1)
     
     #вызываем предсказание
-    prediction = model.predict(x)[:1].tolist()
+    prediction = model.predict(x).tolist()
     
     #определим список отсортированных по размеру упаковок
     pack = ['NONPACK', 'STRETCH', 'YML', 'YMX', 'YME', 'YMG', 'YMW', 
             'YMF', 'YMC', 'MYE', 'MYD', 'YMA', 'MYC', 'YMV', 'YMU', 
             'MYB', 'MYF', 'MYA']
     
+    #далее подберем несколько вариантов упаковки в дополнение к оптимальному
     result = []
     for i in range(len(pack)):
         try:
@@ -120,58 +136,52 @@ def predict(x):
                 result.append('STRETCH')
             elif prediction[0] == 'MYA':
                 result.append('STRETCH')
-        
+    
+    #соединим все варианты упаковки
     y = prediction + result
     
-    y =  {'s': y[1], 'm': y[0], 'l': y[2]}
+    #создадим словарь из результата
+    y =  {'s': y[2], 'm': y[0], 'l': y[1]}
               
     return y
 
 def feature_volume(df):
+    '''Функция для создания признака объем
+    для каждого sku в заказе'''
+    
     df['volume'] = df['a'] * df['b'] * df['c']
+    
     return df
 
 def new_group_features(df):
+    '''создание статистических признаков для 
+    sku в заказе'''
 
-    def size_ratio(x, y, z):
-        return x * y * z / (x + y + z + 1e-3)
-
-    df['goods_wght_sum'] = df['goods_wght'].sum()
     df['goods_wght_mean'] = df['goods_wght'].mean()
-    df['volume_sum'] = df['volume'].sum()
     df['volume_mean'] = df['volume'].mean()
     df['volume_max'] = df['volume'].max()
     df['volume_min'] = df['volume'].min()
-    df['a_sum'] = df['a'].sum()
     df['a_mean'] = df['a'].mean()
     df['a_max'] = df['a'].max()
     df['a_min'] = df['a'].min()
-    df['b_sum'] = df['b'].sum()
     df['b_mean'] = df['b'].mean()
     df['b_max'] = df['b'].max()
     df['b_min'] = df['b'].min()
-    df['c_sum'] = df['c'].sum()
     df['c_mean'] = df['c'].mean()
     df['c_max'] = df['c'].max()
     df['c_min'] = df['c'].min()
 
+    return df
+
+def new_features_log(df):
+    '''функция для создания нового признака'''
+
+    def size_ratio(x, y, z):
+        '''создание логарифмического признака
+        по размеру sku'''
+        
+        return x * y * z / (x + y + z + 1e-3)
+
     df['size'] = df.apply(lambda row: size_ratio(row['a'], row['b'], row['c']), axis=1)
     
-    return df
-
-def make_count_sku_in_order(df):
-    
-    pass
-    
-    return df
-
-def drop_features(df):
-    df = df.drop(['sku'], axis=1)
-    return df
-
-def transform_df(df):
-    df = feature_volume(df)
-    df = new_group_features(df)
-    df = make_count_sku_in_order(df)
-    df = drop_features(df)
     return df
