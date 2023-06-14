@@ -1,3 +1,11 @@
+import json
+import os
+import pandas as pd
+import numpy as np
+import pickle
+from pickle import dump, load
+import requests
+
 def predict(x):
     """Функция принимает на вход json запрос, обученную модель,
     выполняет преобразование признаков и предсказание"""    
