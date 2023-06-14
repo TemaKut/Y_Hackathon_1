@@ -70,6 +70,7 @@ function App() {
             rightSideClick={rightSideClick}
             isFinal={isFinal}
             isStart={isStart}
+            isKeyboardOpen={isKeyboardOpen}
           />
         )}
       </main>
