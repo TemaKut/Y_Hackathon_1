@@ -11,7 +11,7 @@ def predict(x):
     выполняет преобразование признаков и предсказание"""    
     
     #загрузка модели
-    with open('model_lgbm_test1.pcl', 'rb') as fid:
+    with open('app/pickle_model/model_lgbm_test1.pcl', 'rb') as fid:
         model = pickle.load(fid)
     
     #названия столбцов из тренировочного датасета
