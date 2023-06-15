@@ -1,5 +1,8 @@
+import os
+
 from fastapi import FastAPI, Body, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from app.data.orders import orders_data
 from app.data.sku import sku_data
@@ -25,6 +28,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Статические файлы
+static_dir: str = os.path.join('app/', 'static')
+app.mount('/static', StaticFiles(directory=static_dir), name='static')
 
 
 @app.post('/users/me')
