@@ -2,6 +2,7 @@ from fastapi import FastAPI, Body, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.data.orders import orders_data
+from app. data.orders_boxes import orders_boxes
 from app.data.sku import sku_data
 from app.data.cargotypes import cargotypes_data
 from app.schemas import TokenData
@@ -106,3 +107,13 @@ async def get_a_list_of_cargotypes(data: list[str]):
             result.append(cargotype)
 
     return result
+
+
+@app.get('/boxs/{box_num}')
+async def get_order_by_box_num(box_num: str) -> str:
+    """ Найти и вернуть номер заказа по номеру ячейки. """
+
+    if box_num not in orders_boxes:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, 'Not found')
+    else:
+        return orders_boxes[box_num]
