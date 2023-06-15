@@ -22,7 +22,7 @@ class OrderFromBackend(BaseModel):
     b: float
     box_num: int = None
     c: float
-    cargotypes: list[int]
+    cargotypes: list[float]
     cell_name: str = None
     count: int
     goods_wght: float
