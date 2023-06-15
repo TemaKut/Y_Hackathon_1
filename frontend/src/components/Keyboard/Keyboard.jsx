@@ -12,8 +12,10 @@ function Keyboard({ isKeyboardOpen, titleText, children }) {
         className={`${Style.keyboard} ${isKeyboardOpen && Style.keyboard_open}`}
       >
         <h2 className={Style.title}>{titleText}</h2>
-        <input className={Style.input} />
-        {children}
+        <form>
+          <input className={Style.input} />
+          {children}
+        </form>
       </section>
     </ReactPortal>
   );
