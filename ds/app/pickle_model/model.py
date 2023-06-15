@@ -63,9 +63,10 @@ def predict(x):
                              'goods_wght': weights,
                              'cargotypes': types})
     
-    #фнукция добавляет 1 в соотвествующий товару карготип
+    #фукция добавляет 1 в соотвествующий товару карготип
     def make_types(df):
-        pivoted = pd.pivot_table(df.assign(val=1), values='val', index=['sku'], columns=['cargotypes'], 
+        pivoted = pd.pivot_table(df.assign(val=1), values='val',
+                                 index=['sku'], columns=['cargotypes'], 
                                  aggfunc=lambda x: 1, fill_value=0)
         pivoted.columns = ['type_' + str(x) if x!='sku' else x for x in pivoted.columns]
         #сбросим индексы
@@ -79,39 +80,36 @@ def predict(x):
         df = df.drop_duplicates()
         return df
     
-    
     #преобразование признаков x из запроса
     df_for_model = merge_data(new_data)
     
-    
-    #находим отсутствующие признаки (разница между трейном и запросом)
+    '''находим отсутствующие признаки 
+    (разница между трейном и запросом)'''
     col = [item for item in col if item not in df_for_model.columns]
     
     #датафрейм с нулями в пустых карготипах
-    temp = pd.DataFrame(0, index=np.arange(len(df_for_model)), columns=col)
-    
+    temp = pd.DataFrame(0, index=np.arange(len(df_for_model)), 
+                        columns=col)
     #объединие признаков
-    x_temp = pd.concat([df_for_model, temp.reindex(df_for_model.index)], axis=1)
-    
+    x_temp = pd.concat([df_for_model, 
+                       temp.reindex(df_for_model.index)], 
+                       axis=1)
     #заполнение пропусков
     x_temp = x_temp.fillna(0)
-    
     #создадим идентификатор заказа для группировки
     x_temp['order'] = 1
-    
     #скопируем датафрейм
     x_part_1 = x_temp.copy()
     
-    #создадим промежуточный датафрейм для сохранения статистических данных о sku
+    '''создадим промежуточный датафрейм для сохранения 
+    статистических данных о sku'''
     temp_features = x_temp.loc[:,['a', 'b', 'c', 'goods_wght']]
     
     #создадим новые признаки в соответствии с обучащими данными
     temp_features = feature_volume(temp_features)
     temp_features = new_group_features(temp_features)
-    
     #заменим признак с объемом каждого товара на общий объем заказа
     temp_features['volume'] = temp_features['volume'].sum()
-    
     #оставим одну строку с данными по одному заказу
     temp_features = (temp_features
                      .drop(['a', 'b', 'c', 'goods_wght'], axis=1)
@@ -121,18 +119,22 @@ def predict(x):
     x = x_part_1.groupby('order').sum()
     x = x.reset_index(drop=True)
     
-    #соединим данные по заказу со статистическими признаками для sku в заказе
-    x = pd.concat([x, temp_features.reindex(x.index)], axis=1)
+    '''соединим данные по заказу со статистическими 
+    признаками для sku в заказе'''
+    x = pd.concat([x, temp_features.reindex(x.index)], 
+                  axis=1)
+    
+    #определим список отсортированных по размеру упаковок
+    pack = ['NONPACK', 'STRETCH', 'YML', 'YMX', 
+            'YME', 'YMG', 'YMW',  'YMF', 'YMC', 
+            'MYE', 'MYD', 'YMA', 'MYC', 'YMV', 
+            'YMU', 'MYB', 'MYF', 'MYA']
     
     #вызываем предсказание
     prediction = model.predict(x).tolist()
     
-    #определим список отсортированных по размеру упаковок
-    pack = ['NONPACK', 'STRETCH', 'YML', 'YMX', 'YME', 'YMG', 'YMW', 
-            'YMF', 'YMC', 'MYE', 'MYD', 'YMA', 'MYC', 'YMV', 'YMU', 
-            'MYB', 'MYF', 'MYA']
-    
-    #далее подберем несколько вариантов упаковки в дополнение к оптимальному
+    '''далее подберем несколько вариантов упаковки 
+    в дополнение к оптимальному'''
     result = []
     for i in range(len(pack)):
         try:
@@ -147,7 +149,6 @@ def predict(x):
     
     #соединим все варианты упаковки
     y = prediction + result
-    
     #создадим словарь из результата
     y =  {'s': y[2], 'm': y[0], 'l': y[1]}
               
