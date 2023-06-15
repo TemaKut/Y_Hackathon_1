@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-no-bind */
-/* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Style from './App.module.scss';
 
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
+import Keyboard from './components/Keyboard/Keyboard';
 import Footer from './components/Footer/Footer';
 
 import Products from './components/Products/Products';
@@ -19,6 +19,8 @@ import RightSide from './components/RightSide/RightSide';
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const [keyboardTitleText, setKeyboardTitleText] = useState('');
   const showLefSide = ['/products', '/package'].includes(location.pathname);
   const showRightSide = ['/products', '/final', '/'].includes(
     location.pathname
@@ -29,7 +31,8 @@ function App() {
 
   function keyboardClick() {
     if (['/'].includes(location.pathname)) {
-      navigate('/products');
+      setKeyboardTitleText('Введите код ячейки');
+      setIsKeyboardOpen(true);
     } else if (['/products'].includes(location.pathname)) {
       navigate('/package');
     } else if (['/package'].includes(location.pathname)) {
@@ -43,7 +46,7 @@ function App() {
 
   function rightSideClick() {
     if (['/'].includes(location.pathname)) {
-      navigate('/');
+      setIsKeyboardOpen(true);
     } else if (['/products'].includes(location.pathname)) {
       navigate('/package');
     } else if (['/final'].includes(location.pathname)) {
@@ -67,9 +70,11 @@ function App() {
             rightSideClick={rightSideClick}
             isFinal={isFinal}
             isStart={isStart}
+            isKeyboardOpen={isKeyboardOpen}
           />
         )}
       </main>
+      <Keyboard isKeyboardOpen={isKeyboardOpen} titleText={keyboardTitleText} />
       <Footer
         goBack={goBack}
         keyboardClick={keyboardClick}

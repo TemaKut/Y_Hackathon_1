@@ -10,6 +10,7 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': ['error', { singleQuote: true }],
+    'no-underscore-dangle': ['error', { allowAfterThis: true }],
   },
   plugins: ['prettier'],
 };
