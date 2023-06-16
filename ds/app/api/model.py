@@ -67,7 +67,7 @@ def predict(x=Body()):
     weights = []
     types = []
 
-    for item in range(len(x)):
+    for i in range(len(x)):
 
         for t in x[i]['cargotypes']:
             skus.append(x[i]['sku'])
