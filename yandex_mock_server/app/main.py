@@ -1,13 +1,13 @@
 import os
+import random
 
-from fastapi import FastAPI, Body, HTTPException, status
+from fastapi import FastAPI, Body
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 from app.data.orders import orders_data
 from app.data.sku import sku_data
 from app.data.cargotypes import cargotypes_data
-from app.schemas import TokenData
 
 
 app = FastAPI(
@@ -34,16 +34,21 @@ static_dir: str = os.path.join('app/', 'static')
 app.mount('/static', StaticFiles(directory=static_dir), name='static')
 
 
-@app.post('/users/me')
-async def get_info_about_user(data: TokenData = Body()):
-    """
-    Возвращает краткую информацию о пользователе.
-    Предполагается что аккаунт сотрудников Яндекса един для всей экосистемы.
-    """
+@app.get('/cell-to-work')
+async def get_cell_to_work():
+    """ Получить нужную ячейку к работе. """
 
-    # Какие-то суперсложные манипуляции с токеном из data..
+    cell_orderkey: dict[str, str] = {
+        'ATM-1': 'a763be2ddb7cb12da46be17be5528bee',
+        'ATM-2': '1913aa8f0023c18ba8724a234bbc987f',
+        'ATM-3': '40c33668fe8dba60a8bb0a982d0a993b',
+        'ATM-4': '46c39f23ec7f3e6ba6776d01c7edb4b9',
+        'ATM-5': '0f489755c658e890bfd405327298525d',
+    }
 
-    return {'id': 'SuperLooongestUserId123', 'username': 'ArtemKutuzov'}
+    cell, orderkey = random.choice(list(cell_orderkey.items()))
+
+    return {'cell': cell, 'orderkey': orderkey}
 
 
 @app.get('/orders/{orderkey}')
@@ -57,32 +62,6 @@ async def get_order_by_orderkey(orderkey: str):
     for order in orders_data:
 
         if order.get('orderkey') == orderkey:
-            result.append(order)
-
-    return result
-
-
-@app.patch('/orders/{orderkey}')
-async def update_of_order(orderkey: str, data: dict = Body()):
-    """ Частично обновить заказ. """
-    valid_keys_to_update: list[str] = ['who']
-
-    for key in data.keys():
-
-        if key not in valid_keys_to_update:
-            raise HTTPException(status.HTTP_400_BAD_REQUEST, 'Not valid key')
-
-    result: list = []
-
-    for order in orders_data:
-
-        if order.get('orderkey') != orderkey:
-            print(1)
-            continue
-
-        for key, value in data.items():
-            print(2)
-            order[key] = value
             result.append(order)
 
     return result

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from app.external.ds import DsAPI
+from app.external.storage import StorageYM
 from app.core.orders.operations import OrdersOperations
 from app.core.orders.schemas import Product
 
@@ -9,6 +10,13 @@ orders_router = APIRouter(
     prefix='/orders',
     tags=['Orders']
 )
+
+
+@orders_router.get('/cell-to-work')
+async def get_cell_to_work(storage: StorageYM = Depends()):
+    """ Получить ячейку к работе. """
+
+    return await storage.get_cell_to_work()
 
 
 @orders_router.get(
