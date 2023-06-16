@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.order_model import order_model_router
+from app.api.model import order_model_router
 
 
 api_router = APIRouter(prefix='/api/v1')
