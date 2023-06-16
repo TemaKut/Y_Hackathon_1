@@ -36,7 +36,7 @@ function Button({
 Button.propTypes = {
   onClickBtn: PropTypes.func.isRequired,
   isHidden: PropTypes.bool,
-  btnPosition: PropTypes.string.isRequired,
+  btnPosition: PropTypes.string,
   btnColor: PropTypes.string.isRequired,
   btnSize: PropTypes.string.isRequired,
   isSubmit: PropTypes.bool,
@@ -45,8 +45,9 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  isSubmit: false,
   isHidden: false,
+  btnPosition: '',
+  isSubmit: false,
 };
 
 export default Button;

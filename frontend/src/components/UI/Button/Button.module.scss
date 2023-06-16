@@ -2,7 +2,6 @@
   border-radius: 24px;
   border: none;
   cursor: pointer;
-  position: fixed;
   transition: .3s ease-in-out;
 
   &_hidden {
@@ -49,6 +48,7 @@
     }
 
     &_big {
+      position: fixed;
       padding: 0;
       font-family: 'YS Display', sans-serif;
       font-style: normal;
