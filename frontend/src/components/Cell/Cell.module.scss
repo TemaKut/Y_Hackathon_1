@@ -1,12 +1,11 @@
-.cellTitle {
+.title {
     margin: 35px auto 0;
-    font-family: 'YS Text';
+    font-family: 'YS Text', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 48px;
     line-height: 50px;
     text-align: center;
-    // letter-spacing: -0.02em;
     font-feature-settings: 'pnum' on, 'lnum' on;
     color: #212121;
     top: 0;
@@ -18,9 +17,10 @@
     letter-spacing: -0.02em;
 }
 
-.cellNumber {
+.cellName {
+    display: block;
     margin: 8px 0 0;
-    font-family: 'YS Display';
+    font-family: 'YS Display', sans-serif;
     font-weight: 700;
     font-size: 56px;
     line-height: 70px;
