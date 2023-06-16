@@ -7,6 +7,14 @@
     align-items: center;
 }
 
+.buttons {
+    position: absolute;
+    left: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
 .package__title {
     margin: 0px 0 35px;
     font-family: 'YS Display';

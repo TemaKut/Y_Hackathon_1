@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactPortal from '../ReactPortal/ReactPortal';
+import Button from '../UI/Button/Button';
 import Style from './Keyboard.module.scss';
 
 function Keyboard({ isKeyboardOpen, titleText, children }) {
@@ -11,11 +12,23 @@ function Keyboard({ isKeyboardOpen, titleText, children }) {
       <section
         className={`${Style.keyboard} ${isKeyboardOpen && Style.keyboard_open}`}
       >
-        <h2 className={Style.title}>{titleText}</h2>
-        <form>
-          <input className={Style.input} />
-          {children}
-        </form>
+        <div className={Style.inputContainer}>
+          <h2 className={Style.title}>{titleText}</h2>
+          <form>
+            <input className={Style.input} />
+            {children}
+          </form>
+        </div>
+        <Button
+          // onClickBtn={handleClickBtn}
+          btnPosition="right"
+          btnColor="yellow"
+          btnSize="big"
+          isSubmit
+          ariaLabelText="Готово"
+        >
+          Готово
+        </Button>
       </section>
     </ReactPortal>
   );
