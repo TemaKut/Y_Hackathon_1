@@ -67,15 +67,15 @@ def predict(x=Body()):
     weights = []
     types = []
 
-    for item in x['items']:
+    for i in range(len(x)):
 
-        for t in item['cargotypes']:
-            skus.append(item['sku'])
-            counts.append(item['count'])
-            size1s.append(item['a'])
-            size2s.append(item['b'])
-            size3s.append(item['c'])
-            weights.append(item['goods_wght'])
+        for t in x[i]['cargotypes']:
+            skus.append(x[i]['sku'])
+            counts.append(x[i]['count'])
+            size1s.append(x[i]['a'])
+            size2s.append(x[i]['b'])
+            size3s.append(x[i]['c'])
+            weights.append(x[i]['goods_wght'])
             types.append(t)
 
     new_data = pd.DataFrame(
@@ -116,6 +116,8 @@ def predict(x=Body()):
 
         return df
 
+    #заменим тип данных
+    new_data['cargotypes'] = new_data['cargotypes'].astype(float)
     # Преобразование признаков x из запроса
     df_for_model = merge_data(new_data)
 
