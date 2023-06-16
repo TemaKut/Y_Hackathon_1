@@ -24,7 +24,7 @@ function Keyboard({ isKeyboardOpen, titleText, children }) {
           btnPosition="right"
           btnColor="yellow"
           btnSize="big"
-          isSubmit={false}
+          isSubmit
           ariaLabelText="Готово"
         >
           Готово
