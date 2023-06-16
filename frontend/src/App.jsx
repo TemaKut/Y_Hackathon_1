@@ -7,6 +7,7 @@ import Style from './App.module.scss';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
 import Keyboard from './components/Keyboard/Keyboard';
+import Popup from './components/Popup/Popup';
 import Footer from './components/Footer/Footer';
 
 import Products from './components/Products/Products';
@@ -20,6 +21,7 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [keyboardTitleText, setKeyboardTitleText] = useState('');
   const [showRightSide, setShowRightSide] = useState(false);
   const showLefSide = ['/products', '/package'].includes(location.pathname);
@@ -48,7 +50,8 @@ function App() {
     } else if (['/products'].includes(location.pathname)) {
       navigate('/package');
     } else if (['/package'].includes(location.pathname)) {
-      navigate('/final');
+      setIsPopupOpen(true);
+      // navigate('/final');
     }
   }
 
@@ -88,6 +91,7 @@ function App() {
         )}
       </main>
       <Keyboard isKeyboardOpen={isKeyboardOpen} titleText={keyboardTitleText} />
+      <Popup isPopupOpen={isPopupOpen} />
       <Footer
         goBack={goBack}
         keyboardClick={keyboardClick}

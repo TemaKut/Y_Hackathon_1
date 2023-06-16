@@ -1,0 +1,51 @@
+.popup {
+    align-items: center;
+    background: rgba(116, 128, 148, 0.6);
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    transition: 0.3s ease-in-out;
+    width: 100%;
+    z-index: 11;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    border-radius: 40px;
+    width: 1096px;
+    text-align: center;
+    height: 47%;
+}
+
+.title {
+    font-family: 'YS Text', sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 1.04;
+    color: #000000;
+    letter-spacing: -0.02em;
+    margin: 0;
+    margin-bottom: 28px;
+}
+
+.text {
+    font-family: 'YS Text', sans-serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.16;
+    color: #000000;
+    letter-spacing: -0.025em;
+    margin: 0;
+    margin-bottom: 44px;
+}
+
+.image {
+    width: 273px;
+    height: 229px;
+}
