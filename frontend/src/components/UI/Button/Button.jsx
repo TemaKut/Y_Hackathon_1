@@ -4,7 +4,9 @@ import Style from './Button.module.scss';
 
 function Button({
   onClickBtn,
-  btnClassName,
+  btnPosition,
+  btnColor,
+  btnSize,
   isSubmit,
   ariaLabelText,
   children,
@@ -16,7 +18,9 @@ function Button({
 
   return (
     <button
-      className={`${Style.button} ${Style[btnClassName]}`}
+      className={`${Style.button} ${Style[`button__position_${btnPosition}`]} ${
+        Style[`button__color_${btnColor}`]
+      } ${Style[`button__size_${btnSize}`]}`}
       type={isSubmit ? 'submit' : 'button'}
       onClick={isSubmit ? null : handleClickBtn}
       aria-label={ariaLabelText}
@@ -27,7 +31,9 @@ function Button({
 }
 
 Button.propTypes = {
-  btnClassName: PropTypes.string.isRequired,
+  btnPosition: PropTypes.string.isRequired,
+  btnColor: PropTypes.string.isRequired,
+  btnSize: PropTypes.string.isRequired,
   isSubmit: PropTypes.bool,
   children: PropTypes.node.isRequired,
   onClickBtn: PropTypes.func.isRequired,

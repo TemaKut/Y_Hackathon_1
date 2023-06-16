@@ -8,7 +8,16 @@ function Main() {
   return (
     <main className={Style.main}>
       <Cell />
-      <Button />
+      <Button
+        // onClickBtn={handleClickBtn}
+        btnPosition="right"
+        btnColor="yellow"
+        btnSize="big"
+        isSubmit={false}
+        ariaLabelText="Взять другое задание"
+      >
+        Взять другое задание
+      </Button>
     </main>
   );
 }
