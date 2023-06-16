@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-bind */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Style from './App.module.scss';
@@ -14,32 +14,32 @@ import Package from './components/Package/Package';
 import Final from './components/Final/Final';
 
 import LeftSide from './components/LeftSide/LeftSide';
-import RightSide from './components/RightSide/RightSide';
+// import RightSide from './components/RightSide/RightSide';
 
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [keyboardTitleText, setKeyboardTitleText] = useState('');
-  const [showRightSide, setShowRightSide] = useState(false);
+  // const [showRightSide, setShowRightSide] = useState(false);
   const showLefSide = ['/products', '/package'].includes(location.pathname);
 
   const isStart = ['/'].includes(location.pathname);
   const isFinal = ['/final'].includes(location.pathname);
   const isPackage = ['/package'].includes(location.pathname);
-  const isProducts = ['/products'].includes(location.pathname);
+  // const isProducts = ['/products'].includes(location.pathname);
 
-  useEffect(() => {
-    if (isStart || isFinal) {
-      setShowRightSide(true);
-    }
-    if (isProducts) {
-      setShowRightSide(true);
-    }
-    if (isPackage) {
-      setShowRightSide(false);
-    }
-  }, [isStart, isProducts, isFinal, isPackage]);
+  // useEffect(() => {
+  //   if (isStart || isFinal) {
+  //     setShowRightSide(true);
+  //   }
+  //   if (isProducts) {
+  //     setShowRightSide(true);
+  //   }
+  //   if (isPackage) {
+  //     setShowRightSide(false);
+  //   }
+  // }, [isStart, isProducts, isFinal, isPackage]);
 
   function keyboardClick() {
     if (['/'].includes(location.pathname)) {
@@ -77,7 +77,7 @@ function App() {
           <Route exact path="/package" element={<Package />} />
           <Route exact path="/final" element={<Final />} />
         </Routes>
-        {showRightSide && (
+        {/* {showRightSide && (
           <RightSide
             rightSideClick={rightSideClick}
             isFinal={isFinal}
@@ -85,7 +85,7 @@ function App() {
             isProducts={isProducts}
             isKeyboardOpen={isKeyboardOpen}
           />
-        )}
+        )} */}
       </main>
       <Keyboard isKeyboardOpen={isKeyboardOpen} titleText={keyboardTitleText} />
       <Footer
