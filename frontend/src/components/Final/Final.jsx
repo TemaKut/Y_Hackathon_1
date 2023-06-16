@@ -1,5 +1,6 @@
 import React from 'react';
 import Style from './Final.module.scss';
+import Button from '../UI/Button/Button';
 import imgSucces from '../../images/succes.png';
 
 function Package() {
@@ -15,6 +16,15 @@ function Package() {
         src={imgSucces}
         alt="картинка с одобрением"
       />
+      <Button
+        // onClickBtn={handleClickBtn}
+        btnPosition="right"
+        btnColor="yellow"
+        btnSize="big"
+        ariaLabelText="Готово"
+      >
+        Готово
+      </Button>
     </div>
   );
 }
