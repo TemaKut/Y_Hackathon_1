@@ -7,7 +7,7 @@ function Products() {
   return (
     <>
       <Cell />
-      <container className={Style.products}>
+      <div className={Style.products}>
         <div className={Style.specs}>
           <span className={`${Style.amount} ${Style.spec}`}>6 товаров</span>
           <span className={`${Style.delivery} ${Style.spec}`}>
@@ -17,7 +17,7 @@ function Products() {
         <ul className={Style.cards}>
           <Card />
         </ul>
-      </container>
+      </div>
     </>
   );
 }

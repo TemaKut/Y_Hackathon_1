@@ -1,11 +1,17 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Style from './Footer.module.scss';
 import boardLogo from '../../images/board-logo.svg';
 
-// eslint-disable-next-line react/prop-types
 function Footer({ isStart, isFinal, keyboardClick, goBack }) {
-  const buttonText = isStart ? 'Не сканируется' : 'Назад';
+  const [buttonText, setButtonText] = useState('');
+  useEffect(() => {
+    if (isStart) {
+      setButtonText('Не сканируется');
+      return;
+    }
+    setButtonText('Назад');
+  }, [isStart, isFinal]);
 
   return (
     <footer className={`${Style.footer} `}>
@@ -33,5 +39,17 @@ function Footer({ isStart, isFinal, keyboardClick, goBack }) {
     </footer>
   );
 }
+
+Footer.propTypes = {
+  isStart: PropTypes.bool,
+  isFinal: PropTypes.bool,
+  goBack: PropTypes.func.isRequired,
+  keyboardClick: PropTypes.func.isRequired,
+};
+
+Footer.defaultProps = {
+  isStart: false,
+  isFinal: false,
+};
 
 export default Footer;
