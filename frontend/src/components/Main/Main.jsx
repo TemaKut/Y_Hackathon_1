@@ -15,13 +15,16 @@ function Main() {
     }
   }, [value]);
 
-  // const handleClickBtn = () => {};
+  const handleClickBtn = async () => {
+    const newValue = await getOrderCell();
+    setCellName(newValue.cell);
+  };
 
   return (
     <main className={Style.main}>
       <Cell cellName={cellName} />
       <Button
-        // onClickBtn={handleClickBtn}
+        onClickBtn={handleClickBtn}
         btnPosition="right"
         btnColor="yellow"
         btnSize="big"
