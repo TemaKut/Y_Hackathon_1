@@ -7,31 +7,15 @@ import pickle
 order_model_router = APIRouter()
 
 
-def new_features_log(df):
-    '''функция для создания нового признака'''
-
-    def size_ratio(x, y, z):
-        '''создание логарифмического признака по размеру sku'''
-
-        return x * y * z / (x + y + z + 1e-3)
-
-    df['size'] = df.apply(
-        lambda row: size_ratio(row['a'], row['b'], row['c']),
-        axis=1,
-    )
-
-    return df
-
-
 @order_model_router.post('/predict')
-def predict(x=Body()):
+def predict(x):
     """
     Функция принимает на вход json запрос, обученную модель,
     выполняет преобразование признаков и предсказание.
     """
 
     # Загрузка модели
-    with open('app/pickle_model/model_lgbm_test1.pcl', 'rb') as fid:
+    with open('app/pickle_model/model_lgbm_v3.pcl', 'rb') as fid:
         model = pickle.load(fid)
 
     # Названия столбцов из тренировочного датасета
@@ -89,7 +73,7 @@ def predict(x=Body()):
             'cargotypes': types,
         }
     )
-
+    
     def make_types(df):
         '''Фукция добавляет 1 в соотвествующий товару карготип'''
         pivoted = pd.pivot_table(
@@ -169,6 +153,18 @@ def predict(x=Body()):
         df['c_min'] = df['c'].min()
 
         return df
+    
+    def new_features_log(df):
+        '''создание нового признака'''
+        
+        def size_ratio(x, y, z):
+            '''добавление нового признака'''
+            
+            return x * y * z / (x + y + z + 1e-3)
+        
+        df['size'] = df.apply(lambda row: size_ratio(row['a'], row['b'], row['c']), axis=1)
+        
+        return df
 
     # Cоздадим новые признаки в соответствии с обучащими данными
     temp_features = feature_volume(temp_features)
@@ -190,6 +186,9 @@ def predict(x=Body()):
 
     # соединим данные по заказу со статистическими признаками для sku в заказе
     x = pd.concat([x, temp_features.reindex(x.index)], axis=1)
+    
+    #добавим новый признак
+    x = new_features_log(x)
 
     # Определим список отсортированных по размеру упаковок
     pack = [
@@ -226,5 +225,5 @@ def predict(x=Body()):
 
     # Создадим словарь из результата
     y = {'s': y[2], 'm': y[0], 'l': y[1]}
-
+    
     return y
