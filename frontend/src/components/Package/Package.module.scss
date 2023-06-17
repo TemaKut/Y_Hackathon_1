@@ -15,9 +15,9 @@
     gap: 28px;
 }
 
-.package__title {
+.title {
     margin: 0px 0 35px;
-    font-family: 'YS Display';
+    font-family: 'YS Display', sans-serif;
     font-style: normal;
     font-weight: 700;
     font-size: 56px;
@@ -26,14 +26,13 @@
     text-align: center;
     font-feature-settings: 'pnum' on, 'lnum' on;
     color: #212121;
-
 }
 
-.package__number {
+.packageName {
     margin: 0 0 40px;
     display: flex;
     align-items: center;
-    font-family: 'YS Text';
+    font-family: 'YS Text', sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 56px;
@@ -41,20 +40,18 @@
     letter-spacing: -0.01em;
     font-feature-settings: 'pnum' on, 'lnum' on;
     color: #FFFFFF;
-
     width: 213px;
     height: 88px;
     background: #F29A00;
     border-radius: 24px;
 }
 
-.package__logo {
+.icon {
     margin-left: 10px;
     width: 64px;
     height: 64px;
-
 }
 
-.package__img {
+.image {
     display: block;
 }
