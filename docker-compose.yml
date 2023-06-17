@@ -80,3 +80,12 @@ services:
 
             - YM_DOMAIN=http://mock:8000
             - DS_DOMAIN=http://ds:8000
+
+    frontend:
+      build: './frontend'
+      container_name: frontend
+      depends_on:
+            - backend
+      restart: always
+      ports:
+            - 3000:3000
