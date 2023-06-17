@@ -48,4 +48,25 @@
 .image {
     width: 273px;
     height: 229px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-image: url("../../images/happycarton.png");
+    cursor: pointer;
+
+    animation: eyes 0.9s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite alternate forwards;
+    &:hover {
+        scale: 1.1;
+    }
+}
+
+
+
+@keyframes eyes {
+    0%{
+        background-image: url("../../images/happycarton.png"); 
+    }
+    100%{
+        background-image: url("../../images/happycarton-v2.png");
+    }
 }
