@@ -1,7 +1,7 @@
 const packageResult = {
-  s: 'ATM',
-  m: 'YMA',
-  l: 'ATM-3',
+  s: 'YMA',
+  m: 'YMF',
+  l: 'MYF',
 };
 
 const packageData = [

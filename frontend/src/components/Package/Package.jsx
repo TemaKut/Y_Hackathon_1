@@ -8,9 +8,16 @@ import boxImage from '../../images/box-ymf.png';
 import bagImage from '../../images/bagImage.svg';
 
 function Package() {
+  const [packageName, setPackageName] = useState(data.packageResult.m);
   const [packageData, setPackageData] = useState({});
 
-  const packageName = data.packageResult.m;
+  const suggestBiggerCarton = () => {
+    setPackageName(data.packageResult.l);
+  };
+
+  const suggestSmallerCarton = () => {
+    setPackageName(data.packageResult.s);
+  };
 
   useEffect(() => {
     const filteredData = data.packageData.filter(
@@ -23,7 +30,7 @@ function Package() {
     <section className={Style.package}>
       <div className={Style.buttons}>
         <Button
-          // onClickBtn={handleClickBtn}
+          onClickBtn={suggestBiggerCarton}
           btnPosition="left"
           btnColor="grey"
           btnSize="small"
@@ -38,7 +45,7 @@ function Package() {
             : 'Слишком маленький'}
         </Button>
         <Button
-          // onClickBtn={handleClickBtn}
+          onClickBtn={suggestSmallerCarton}
           btnPosition="left"
           btnColor="grey"
           btnSize="small"
@@ -49,7 +56,7 @@ function Package() {
           {packageData.type === 'box' ? 'Слишком большая' : 'Слишком большой'}
         </Button>
         <Button
-          // onClickBtn={handleClickBtn}
+          onClickBtn={suggestBiggerCarton}
           btnPosition="left"
           btnColor="grey"
           btnSize="small"
