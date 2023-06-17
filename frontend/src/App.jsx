@@ -21,6 +21,7 @@ function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [keyboardTitleText, setKeyboardTitleText] = useState('');
   const [cellName, setCellName] = useState('');
+  const [orderKey, setOrderKey] = useState('');
   const { value } = useAsync(getOrderCell);
 
   const isStart = ['/'].includes(location.pathname);
@@ -29,6 +30,7 @@ function App() {
   useEffect(() => {
     if (value) {
       setCellName(value.cell);
+      setOrderKey(value.orderkey);
     }
   }, [value]);
 
@@ -45,7 +47,8 @@ function App() {
   }
 
   function goBack() {
-    navigate(-1);
+    // navigate(-1);
+    navigate('/products');
   }
 
   return (
@@ -64,7 +67,11 @@ function App() {
               />
             }
           />
-          <Route exact path="/products" element={<Products />} />
+          <Route
+            exact
+            path="/products"
+            element={<Products cellName={cellName} orderKey={orderKey} />}
+          />
           <Route exact path="/package" element={<Package />} />
           <Route exact path="/final" element={<Final />} />
         </Routes>
