@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-no-bind */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Style from './App.module.scss';
-
+import useAsync from './utils/useAsync';
+import getOrderCell from './utils/getOrderCell';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
 import Keyboard from './components/Keyboard/Keyboard';
@@ -17,9 +18,17 @@ function App() {
   const location = useLocation();
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [keyboardTitleText, setKeyboardTitleText] = useState('');
+  const [cellName, setCellName] = useState('');
+  const { value } = useAsync(getOrderCell);
 
   const isStart = ['/'].includes(location.pathname);
   const isFinal = ['/final'].includes(location.pathname);
+
+  useEffect(() => {
+    if (value) {
+      setCellName(value.cell);
+    }
+  }, [value]);
 
   function keyboardClick() {
     if (['/'].includes(location.pathname)) {
@@ -41,7 +50,17 @@ function App() {
       <Header />
       <main className={Style.content}>
         <Routes>
-          <Route exact path="/" element={<Main isStart={isStart} />} />
+          <Route
+            exact
+            path="/"
+            element={
+              <Main
+                isStart={isStart}
+                cellName={cellName}
+                setCellName={setCellName}
+              />
+            }
+          />
           <Route exact path="/products" element={<Products />} />
           <Route exact path="/package" element={<Package />} />
           <Route exact path="/final" element={<Final />} />

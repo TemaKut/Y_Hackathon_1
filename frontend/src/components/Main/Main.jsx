@@ -1,27 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Style from './Main.module.scss';
-import useAsync from '../../utils/useAsync';
 import getOrderCell from '../../utils/getOrderCell';
 import Cell from '../Cell/Cell';
 import Button from '../UI/Button/Button';
 
-function Main() {
-  const [cellName, setCellName] = useState('');
-  const { value } = useAsync(getOrderCell);
-
-  useEffect(() => {
-    if (value) {
-      setCellName(value.cell);
-    }
-  }, [value]);
-
+function Main({ cellName, setCellName }) {
   const handleClickBtn = async () => {
     const newValue = await getOrderCell();
     setCellName(newValue.cell);
   };
 
   return (
-    <main className={Style.main}>
+    <section className={Style.main}>
       <Cell cellName={cellName} />
       <Button
         onClickBtn={handleClickBtn}
@@ -33,8 +24,17 @@ function Main() {
       >
         Взять другое задание
       </Button>
-    </main>
+    </section>
   );
 }
+
+Main.propTypes = {
+  cellName: PropTypes.string,
+  setCellName: PropTypes.func.isRequired,
+};
+
+Main.defaultProps = {
+  cellName: '',
+};
 
 export default Main;

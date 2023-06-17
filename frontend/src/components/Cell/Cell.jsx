@@ -16,7 +16,11 @@ function Cell({ cellName }) {
 }
 
 Cell.propTypes = {
-  cellName: PropTypes.string.isRequired,
+  cellName: PropTypes.string,
+};
+
+Cell.defaultProps = {
+  cellName: '',
 };
 
 export default Cell;
