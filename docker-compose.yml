@@ -1,0 +1,91 @@
+version: "3.9"
+
+# TODO: env перенести в git secrets
+
+services:
+
+    db_test:
+        image: postgres:13.3
+        container_name: database_test
+        restart: always
+        ports:
+            - "5433:5432"
+        # Пример виртуального окружения. (Должно совпадать с backend)
+        environment:
+            POSTGRES_DB: "postgres_test"
+            POSTGRES_USER: "postgres_test"
+            POSTGRES_PASSWORD: "postgres_test"
+
+    db:
+        image: postgres:13.3
+        container_name: database
+        restart: always
+        ports:
+            - "5432:5432"
+        volumes:
+            - /var/lib/postgresql/data
+        # Пример виртуального окружения. (Должно совпадать с backend)
+        environment:
+            POSTGRES_DB: "postgres"
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "postgres"
+    
+    ds:
+        build: './ds'
+        container_name: ds
+        restart: always
+        ports:
+            - 8002:8000
+
+    mock:
+        build: './yandex_mock_server'
+        container_name: yandex_mock_server
+        command: sh -c "uvicorn app.main:app --host 0.0.0.0 --port 8000"
+        restart: always
+        ports:
+            - 8001:8000
+
+    backend:
+        build: './backend'
+        container_name: backend
+        command: sh -c "uvicorn app.main:app --host 0.0.0.0 --port 8000"
+        restart: always
+        depends_on:
+            - db_test
+            - db
+            - mock
+        ports:
+            - 8000:8000
+
+        #  Пример виртуального окружения. (Должно совпадать с db и db_test)
+        #  Для боевого проекта рекомендуется переменные env сохранить в git secrets
+        environment:
+            - DEBUG=True
+
+            - SECRET_KEY=somesecretkey
+            - JWT_ALGORITHM=HS256
+            - JWT_EXPIRE_MIN=10000
+
+            - DB_USER=postgres
+            - DB_PASSWORD=postgres
+            - DB_NAME=postgres
+            - DB_HOST=db
+            - DB_PORT=5432
+
+            - DB_USER_TEST=postgres_test
+            - DB_PASSWORD_TEST=postgres_test
+            - DB_NAME_TEST=postgres_test
+            - DB_HOST_TEST=db_test
+            - DB_PORT_TEST=5433
+
+            - YM_DOMAIN=http://mock:8000
+            - DS_DOMAIN=http://ds:8000
+
+    frontend:
+      build: './frontend'
+      container_name: frontend
+      depends_on:
+            - backend
+      restart: always
+      ports:
+            - 3000:3000
