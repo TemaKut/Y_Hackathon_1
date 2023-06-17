@@ -1,21 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
-import useAsync from '../../utils/useAsync';
-import getOrderCell from '../../utils/getOrderCell';
+import PropTypes from 'prop-types';
 import Style from './Cell.module.scss';
 
-function Cell() {
+function Cell({ cellName }) {
   const location = useLocation();
   const isStart = ['/'].includes(location.pathname);
   const cellText = isStart ? 'Сканируйте ячейку' : 'Сканируйте товары';
-  const [cellName, setCellName] = useState('');
-  const { value } = useAsync(getOrderCell);
-
-  useEffect(() => {
-    if (value) {
-      setCellName(value.cell);
-    }
-  }, [value]);
 
   return cellName ? (
     <h2 className={`${Style.title} ${isStart && Style.start}`}>
@@ -23,5 +14,9 @@ function Cell() {
     </h2>
   ) : null;
 }
+
+Cell.propTypes = {
+  cellName: PropTypes.string.isRequired,
+};
 
 export default Cell;
