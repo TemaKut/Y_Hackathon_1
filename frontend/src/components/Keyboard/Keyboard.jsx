@@ -1,11 +1,30 @@
-import React from 'react';
+/* eslint-disable no-alert */
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ReactPortal from '../ReactPortal/ReactPortal';
 import Button from '../UI/Button/Button';
 import Style from './Keyboard.module.scss';
 
-function Keyboard({ isKeyboardOpen, titleText, children }) {
+function Keyboard({ isKeyboardOpen, setIsKeyboardOpen, orderKey, titleText }) {
+  const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState('');
   if (!isKeyboardOpen) return null;
+
+  const handleChange = (e) => {
+    setInputValue(() => e.target.value);
+  };
+
+  const handleClickBtn = () => {
+    if (inputValue === orderKey) {
+      navigate('/products');
+      setIsKeyboardOpen(false);
+    } else if (inputValue === '') {
+      alert('Введите номер заказа');
+    } else {
+      alert('Введен неверный номер заказа');
+    }
+  };
 
   return (
     <ReactPortal wrapperId="keyboard-container">
@@ -14,17 +33,19 @@ function Keyboard({ isKeyboardOpen, titleText, children }) {
       >
         <div className={Style.inputContainer}>
           <h2 className={Style.title}>{titleText}</h2>
-          <form>
-            <input className={Style.input} />
-            {children}
-          </form>
+          <input
+            className={Style.input}
+            type="text"
+            name="orderKey"
+            value={inputValue}
+            onChange={handleChange}
+          />
         </div>
         <Button
-          // onClickBtn={handleClickBtn}
+          onClickBtn={handleClickBtn}
           btnPosition="right"
           btnColor="yellow"
           btnSize="big"
-          isSubmit
           ariaLabelText="Готово"
         >
           Готово
@@ -36,8 +57,9 @@ function Keyboard({ isKeyboardOpen, titleText, children }) {
 
 Keyboard.propTypes = {
   isKeyboardOpen: PropTypes.bool.isRequired,
+  setIsKeyboardOpen: PropTypes.func.isRequired,
+  orderKey: PropTypes.string.isRequired,
   titleText: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
 };
 
 export default Keyboard;
