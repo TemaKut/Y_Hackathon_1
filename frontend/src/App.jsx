@@ -69,7 +69,12 @@ function App() {
           <Route exact path="/final" element={<Final />} />
         </Routes>
       </main>
-      <Keyboard isKeyboardOpen={isKeyboardOpen} titleText={keyboardTitleText} />
+      <Keyboard
+        isKeyboardOpen={isKeyboardOpen}
+        setIsKeyboardOpen={setIsKeyboardOpen}
+        orderKey={value.orderkey}
+        titleText={keyboardTitleText}
+      />
       <Popup isPopupOpen={isPopupOpen} />
       <Footer
         goBack={goBack}
