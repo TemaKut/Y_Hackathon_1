@@ -15,7 +15,7 @@ def predict(x = Body()):
     """
 
     # Загрузка модели
-    with open('app/pickle_model/model_lgbm_v3.pcl', 'rb') as fid:
+    with open('app/pickle_model/model_lgbm_v4.pcl', 'rb') as fid:
         model = pickle.load(fid)
 
     # Названия столбцов из тренировочного датасета
@@ -189,6 +189,9 @@ def predict(x = Body()):
     
     #добавим новый признак
     x = new_features_log(x)
+    
+    x = x.drop('sku', axis=1)
+    x['count'] = df_for_model['count'].sum()
 
     # Определим список отсортированных по размеру упаковок
     pack = [
@@ -197,6 +200,9 @@ def predict(x = Body()):
         'MYE', 'MYD', 'YMA', 'MYC', 'YMV',
         'YMU', 'MYB', 'MYF', 'MYA',
     ]
+    
+    x.sort_index(axis=1, inplace=True)
+     
 
     # Вызываем предсказание
     prediction = model.predict(x).tolist()
