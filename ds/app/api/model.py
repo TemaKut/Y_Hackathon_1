@@ -8,7 +8,7 @@ order_model_router = APIRouter()
 
 
 @order_model_router.post('/predict')
-def predict(x):
+def predict(x = Body()):
     """
     Функция принимает на вход json запрос, обученную модель,
     выполняет преобразование признаков и предсказание.
