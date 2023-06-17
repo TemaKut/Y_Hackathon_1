@@ -3,6 +3,8 @@ import pandas as pd
 import numpy as np
 import pickle
 
+from app.schemas import ProductToPredict
+
 
 order_model_router = APIRouter()
 
@@ -197,6 +199,7 @@ def predict(x = Body()):
         'MYE', 'MYD', 'YMA', 'MYC', 'YMV',
         'YMU', 'MYB', 'MYF', 'MYA',
     ]
+#    x = x.drop(['sku'], axis=1)
 
     # Вызываем предсказание
     prediction = model.predict(x).tolist()
