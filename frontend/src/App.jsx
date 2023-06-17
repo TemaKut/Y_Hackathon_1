@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable react/jsx-no-bind */
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
@@ -44,8 +45,12 @@ function App() {
     }
   }
 
-  function goBack() {
-    navigate(-1);
+  function footerButtonClick() {
+    if (isStart) {
+      alert('Скоро придут Вам помочь');
+    } else {
+      navigate(-1);
+    }
   }
 
   return (
@@ -77,7 +82,7 @@ function App() {
       />
       <Popup isPopupOpen={isPopupOpen} />
       <Footer
-        goBack={goBack}
+        goBack={footerButtonClick}
         keyboardClick={keyboardClick}
         isFinal={isFinal}
         isStart={isStart}
