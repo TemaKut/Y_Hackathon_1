@@ -1,9 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Style from './Final.module.scss';
 import Button from '../UI/Button/Button';
 import imgSucces from '../../images/succes.png';
 
 function Package() {
+  const navigate = useNavigate();
+
+  const handleClickBtn = () => {
+    navigate('/');
+  };
+
   return (
     <div className={Style.final}>
       <h2 className={Style.final__title}>
@@ -17,7 +24,7 @@ function Package() {
         alt="картинка с одобрением"
       />
       <Button
-        // onClickBtn={handleClickBtn}
+        onClickBtn={handleClickBtn}
         btnPosition="right"
         btnColor="yellow"
         btnSize="big"
