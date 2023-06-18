@@ -1,33 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Style from './Package.module.scss';
+import data from './packageData';
 import Button from '../UI/Button/Button';
-import logoCarton from '../../images/carton.svg';
-import imgYMF from '../../images/box-ymf.png';
+import boxIcon from '../../images/carton.svg';
+import bagIcon from '../../images/bag.svg';
+import boxImage from '../../images/box-ymf.png';
+import bagImage from '../../images/bagImage.svg';
 
 function Package() {
+  const [packageName, setPackageName] = useState(data.packageResult.m);
+  const [packageData, setPackageData] = useState({});
+
+  const suggestBiggerCarton = () => {
+    setPackageName(data.packageResult.l);
+  };
+
+  const suggestSmallerCarton = () => {
+    setPackageName(data.packageResult.s);
+  };
+
+  useEffect(() => {
+    const filteredData = data.packageData.filter(
+      (item) => item.name === packageName
+    );
+    setPackageData(filteredData[0]);
+  }, [packageName]);
+
   return (
     <section className={Style.package}>
       <div className={Style.buttons}>
         <Button
-          // onClickBtn={handleClickBtn}
+          onClickBtn={suggestBiggerCarton}
           btnPosition="left"
           btnColor="grey"
           btnSize="small"
-          ariaLabelText="Слишком маленькая"
+          ariaLabelText={
+            packageData.type === 'box'
+              ? 'Слишком маленькая'
+              : 'Слишком маленький'
+          }
         >
-          Слишком маленькая
+          {packageData.type === 'box'
+            ? 'Слишком маленькая'
+            : 'Слишком маленький'}
         </Button>
         <Button
-          // onClickBtn={handleClickBtn}
+          onClickBtn={suggestSmallerCarton}
           btnPosition="left"
           btnColor="grey"
           btnSize="small"
-          ariaLabelText="Слишком большая"
+          ariaLabelText={
+            packageData.type === 'box' ? 'Слишком большая' : 'Слишком большой'
+          }
         >
-          Слишком большая
+          {packageData.type === 'box' ? 'Слишком большая' : 'Слишком большой'}
         </Button>
         <Button
-          // onClickBtn={handleClickBtn}
+          onClickBtn={suggestBiggerCarton}
           btnPosition="left"
           btnColor="grey"
           btnSize="small"
@@ -37,21 +66,27 @@ function Package() {
           <br />в наличии
         </Button>
       </div>
-      <h2 className={Style.package__title}>
-        Упакуйте товары <br />и сканируйте коробку{' '}
+      <h2 className={Style.title}>
+        Упакуйте товары <br />и сканируйте
+        {packageData.type === 'box' ? ' коробку' : ' пакет'}
       </h2>
-      <p className={Style.package__number}>
+      <p
+        className={Style.packageName}
+        style={{ backgroundColor: packageData.backgroundColor }}
+      >
         <img
-          className={Style.package__logo}
-          src={logoCarton}
-          alt="лого Яндекс"
+          className={Style.icon}
+          src={packageData.type === 'box' ? boxIcon : bagIcon}
+          alt={packageData.type === 'box' ? 'Иконка коробки' : 'Иконка пакета'}
         />
-        YMF
+        {packageName}
       </p>
       <img
-        className={Style.package__img}
-        src={imgYMF}
-        alt="картинка упаковки"
+        className={Style.image}
+        src={packageData.type === 'box' ? boxImage : bagImage}
+        alt={
+          packageData.type === 'box' ? 'Картинка коробки' : 'Картинка пакета'
+        }
       />
     </section>
   );

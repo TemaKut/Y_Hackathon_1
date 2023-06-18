@@ -5,6 +5,7 @@ import Style from './Button.module.scss';
 function Button({
   onClickBtn,
   isHidden,
+  allChecked,
   btnPosition,
   btnColor,
   btnSize,
@@ -19,11 +20,11 @@ function Button({
 
   return (
     <button
-      className={`${Style.button} ${isHidden && Style.button_hidden} ${
-        Style[`button__position_${btnPosition}`]
-      } ${Style[`button__color_${btnColor}`]} ${
-        Style[`button__size_${btnSize}`]
-      }`}
+      className={`${Style.button} ${
+        isHidden && !allChecked && Style.button_hidden
+      } ${Style[`button__position_${btnPosition}`]} ${
+        Style[`button__color_${btnColor}`]
+      } ${Style[`button__size_${btnSize}`]}`}
       type={isSubmit ? 'submit' : 'button'}
       onClick={isSubmit ? null : handleClickBtn}
       aria-label={ariaLabelText}
@@ -36,6 +37,7 @@ function Button({
 Button.propTypes = {
   onClickBtn: PropTypes.func.isRequired,
   isHidden: PropTypes.bool,
+  allChecked: PropTypes.bool,
   btnPosition: PropTypes.string,
   btnColor: PropTypes.string.isRequired,
   btnSize: PropTypes.string.isRequired,
@@ -46,6 +48,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   isHidden: false,
+  allChecked: false,
   btnPosition: '',
   isSubmit: false,
 };
