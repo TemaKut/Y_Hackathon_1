@@ -1,32 +1,59 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Style from './Package.module.scss';
-import data from './packageData';
+import packagePropertiesData from './packageData';
+import getOrderPackage from '../../utils/getPackage';
 import Button from '../UI/Button/Button';
 import boxIcon from '../../images/carton.svg';
 import bagIcon from '../../images/bag.svg';
 import boxImage from '../../images/box-ymf.png';
 import bagImage from '../../images/bagImage.svg';
 
-function Package() {
-  const [packageName, setPackageName] = useState(data.packageResult.m);
-  const [packageData, setPackageData] = useState({});
+function Package({ orderKey, setOrderData, setError, setLoading }) {
+  const [packageData, setPackageData] = useState({
+    s: '',
+    m: '',
+    l: '',
+  });
+  const [packageName, setPackageName] = useState('');
+  const [packageProperties, setPackageProperties] = useState({});
+
+  const getPackageData = () => {
+    if (orderKey) {
+      getOrderPackage(orderKey)
+        .then((response) => {
+          setPackageData(response);
+          setPackageName(response.m);
+        })
+        .catch((err) => setError(err))
+        .finally(() => setLoading(false));
+    }
+  };
 
   const suggestBiggerCarton = () => {
-    setPackageName(data.packageResult.l);
+    setPackageName(packageData.l);
   };
 
   const suggestSmallerCarton = () => {
-    setPackageName(data.packageResult.s);
+    setPackageName(packageData.s);
   };
 
   useEffect(() => {
-    const filteredData = data.packageData.filter(
+    const filteredData = packagePropertiesData.filter(
       (item) => item.name === packageName
     );
-    setPackageData(filteredData[0]);
+    setPackageProperties(filteredData[0]);
+  }, [packageName, packageProperties]);
+
+  useEffect(() => {
+    getPackageData();
+  }, [orderKey]);
+
+  useEffect(() => {
+    setOrderData(packageName);
   }, [packageName]);
 
-  return (
+  return packageProperties ? (
     <section className={Style.package}>
       <div className={Style.buttons}>
         <Button
@@ -35,12 +62,12 @@ function Package() {
           btnColor="grey"
           btnSize="small"
           ariaLabelText={
-            packageData.type === 'box'
+            packageProperties.type === 'box'
               ? 'Слишком маленькая'
               : 'Слишком маленький'
           }
         >
-          {packageData.type === 'box'
+          {packageProperties.type === 'box'
             ? 'Слишком маленькая'
             : 'Слишком маленький'}
         </Button>
@@ -50,10 +77,14 @@ function Package() {
           btnColor="grey"
           btnSize="small"
           ariaLabelText={
-            packageData.type === 'box' ? 'Слишком большая' : 'Слишком большой'
+            packageProperties.type === 'box'
+              ? 'Слишком большая'
+              : 'Слишком большой'
           }
         >
-          {packageData.type === 'box' ? 'Слишком большая' : 'Слишком большой'}
+          {packageProperties.type === 'box'
+            ? 'Слишком большая'
+            : 'Слишком большой'}
         </Button>
         <Button
           onClickBtn={suggestBiggerCarton}
@@ -68,28 +99,41 @@ function Package() {
       </div>
       <h2 className={Style.title}>
         Упакуйте товары <br />и сканируйте
-        {packageData.type === 'box' ? ' коробку' : ' пакет'}
+        {packageProperties.type === 'box' ? ' коробку' : ' пакет'}
       </h2>
       <p
         className={Style.packageName}
-        style={{ backgroundColor: packageData.backgroundColor }}
+        style={{ backgroundColor: packageProperties.backgroundColor }}
       >
         <img
           className={Style.icon}
-          src={packageData.type === 'box' ? boxIcon : bagIcon}
-          alt={packageData.type === 'box' ? 'Иконка коробки' : 'Иконка пакета'}
+          src={packageProperties.type === 'box' ? boxIcon : bagIcon}
+          alt={
+            packageProperties.type === 'box'
+              ? 'Иконка коробки'
+              : 'Иконка пакета'
+          }
         />
         {packageName}
       </p>
       <img
         className={Style.image}
-        src={packageData.type === 'box' ? boxImage : bagImage}
+        src={packageProperties.type === 'box' ? boxImage : bagImage}
         alt={
-          packageData.type === 'box' ? 'Картинка коробки' : 'Картинка пакета'
+          packageProperties.type === 'box'
+            ? 'Картинка коробки'
+            : 'Картинка пакета'
         }
       />
     </section>
-  );
+  ) : null;
 }
+
+Package.propTypes = {
+  orderKey: PropTypes.string.isRequired,
+  setOrderData: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
+  setLoading: PropTypes.string.isRequired,
+};
 
 export default Package;
