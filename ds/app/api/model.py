@@ -3,12 +3,14 @@ import pandas as pd
 import numpy as np
 import pickle
 
+from app.schemas import ProductToPredict
+
 
 order_model_router = APIRouter()
 
 
 @order_model_router.post('/predict')
-def predict(x = Body()):
+def predict(x: list[ProductToPredict] = Body()):
     """
     Функция принимает на вход json запрос, обученную модель,
     выполняет преобразование признаков и предсказание.
@@ -56,6 +58,7 @@ def predict(x = Body()):
     types = []
 
     for i in range(len(x)):
+        x[i] = x[i].dict()
 
         for t in x[i]['cargotypes']:
             skus.append(x[i]['sku'])

@@ -28,6 +28,7 @@ class DsAPI():
 
             try:
                 response: Response = await client.post(url, json=products)
+                print(response.text)
                 response: dict = json.loads(response.text)
 
             except Exception as e:
