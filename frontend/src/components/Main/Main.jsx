@@ -5,10 +5,11 @@ import getOrderCell from '../../utils/getOrderCell';
 import Cell from '../Cell/Cell';
 import Button from '../UI/Button/Button';
 
-function Main({ cellName, setCellName }) {
+function Main({ cellName, setOrderData }) {
   const handleClickBtn = async () => {
     const newValue = await getOrderCell();
-    setCellName(newValue.cell);
+
+    setOrderData(newValue.cell);
   };
 
   return (
@@ -30,7 +31,7 @@ function Main({ cellName, setCellName }) {
 
 Main.propTypes = {
   cellName: PropTypes.string,
-  setCellName: PropTypes.func.isRequired,
+  setOrderData: PropTypes.func.isRequired,
 };
 
 Main.defaultProps = {
