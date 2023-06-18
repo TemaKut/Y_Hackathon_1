@@ -6,7 +6,13 @@ import ReactPortal from '../ReactPortal/ReactPortal';
 import Button from '../UI/Button/Button';
 import Style from './Keyboard.module.scss';
 
-function Keyboard({ isKeyboardOpen, setIsKeyboardOpen, orderKey, titleText }) {
+function Keyboard({
+  isKeyboardOpen,
+  setIsKeyboardOpen,
+  compareData,
+  nextRoute,
+  titleText,
+}) {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
   if (!isKeyboardOpen) return null;
@@ -16,15 +22,13 @@ function Keyboard({ isKeyboardOpen, setIsKeyboardOpen, orderKey, titleText }) {
   };
 
   const handleClickBtn = () => {
-    if (inputValue === orderKey) {
-      navigate('/products');
+    if (inputValue === compareData) {
+      navigate(nextRoute);
       setIsKeyboardOpen(false);
     } else if (inputValue === '') {
-      alert('Введите номер заказа');
-    } else if (inputValue === 'skuProducts') {
-      setIsKeyboardOpen(false);
+      alert('Введите код');
     } else {
-      alert('Введен неверный номер заказа');
+      alert('Введен неверный код');
     }
   };
 
@@ -38,7 +42,6 @@ function Keyboard({ isKeyboardOpen, setIsKeyboardOpen, orderKey, titleText }) {
           <input
             className={Style.input}
             type="text"
-            name="orderKey"
             value={inputValue}
             onChange={handleChange}
           />
@@ -60,7 +63,8 @@ function Keyboard({ isKeyboardOpen, setIsKeyboardOpen, orderKey, titleText }) {
 Keyboard.propTypes = {
   isKeyboardOpen: PropTypes.bool.isRequired,
   setIsKeyboardOpen: PropTypes.func.isRequired,
-  orderKey: PropTypes.string.isRequired,
+  compareData: PropTypes.string.isRequired,
+  nextRoute: PropTypes.string.isRequired,
   titleText: PropTypes.string.isRequired,
 };
 

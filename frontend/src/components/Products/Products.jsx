@@ -79,7 +79,9 @@ function Products({ cellName, orderKey, isKeyboardOpen, setIsKeyboardOpen }) {
       <Keyboard
         isKeyboardOpen={isKeyboardOpen}
         setIsKeyboardOpen={setIsKeyboardOpen}
-        orderKey={orderKey}
+        // will be updated with validation sku logic
+        compareData="data"
+        nextRoute="/package"
         titleText="Введите код товара"
       />
     </>

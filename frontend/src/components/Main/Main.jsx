@@ -37,7 +37,8 @@ function Main({
       <Keyboard
         isKeyboardOpen={isKeyboardOpen}
         setIsKeyboardOpen={setIsKeyboardOpen}
-        orderKey={orderKey}
+        compareData={orderKey}
+        nextRoute="/products"
         titleText="Введите код ячейки"
       />
     </>
