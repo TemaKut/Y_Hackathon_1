@@ -108,7 +108,12 @@ function App() {
           <Route
             exact
             path="/products"
-            element={<Products cellName={orderData.cell} />}
+            element={
+              <Products
+                cellName={orderData.cell}
+                orderKey={orderData.orderkey}
+              />
+            }
           />
           <Route exact path="/package" element={<Package />} />
           <Route exact path="/final" element={<Final />} />
