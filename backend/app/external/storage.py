@@ -34,7 +34,7 @@ class StorageYM():
         return response
 
     async def get_cargotypes_for_skus(self, skus: list[str]) -> list[dict]:
-        """ Получить список крготипов для кадого из sku """
+        """ Получить список крготипов для каждого из sku """
         url: str = f'{self.YM_DOMAIN}/sku/cargotypes'
 
         async with AsyncClient() as client:

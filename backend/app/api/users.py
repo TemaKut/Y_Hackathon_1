@@ -18,7 +18,7 @@ users_router: APIRouter = APIRouter(
     '/register',
     response_model=TokenRepresentation,
     responses={
-        400: {'description': 'User alredy exists'},
+        400: {'description': 'User already exists'},
     },
 )
 async def register_user(

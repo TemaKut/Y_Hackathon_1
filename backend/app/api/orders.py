@@ -25,7 +25,7 @@ async def get_cell_to_work(storage: StorageYM = Depends()):
     response_model=list[Product],
     responses={
         400: {'description': 'Incorrect orderkey or another data'},
-        503: {'description': 'YM server unaviable.'},
+        503: {'description': 'YM server unavailable.'},
     },
 )
 async def get_products_of_order(
@@ -41,7 +41,7 @@ async def get_products_of_order(
     '/{orderkey}/predict',
     responses={
         400: {'description': 'Incorrect orderkey or another data'},
-        503: {'description': 'YM server unaviable.'},
+        503: {'description': 'YM server unavailable.'},
     },
 )
 async def predict_package_by_orderkey(

@@ -82,7 +82,7 @@ async def get_a_list_of_sku(data: list[str] = Body()):
 
 @app.post('/sku/cargotypes')
 async def get_a_list_of_cargotypes(data: list[str]):
-    """ Получить спискок карготипов для каждого sku """
+    """ Получить список карготипов для каждого sku """
     result: list = []
 
     for cargotype in cargotypes_data:

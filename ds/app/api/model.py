@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Body
-import pandas as pd
 import numpy as np
+import pandas as pd
 import pickle
 
 from app.schemas import ProductToPredict
@@ -80,9 +80,9 @@ def predict(x: list[ProductToPredict] = Body()):
             'cargotypes': types,
         }
     )
-    
+
     def make_types(df):
-        '''Фукция добавляет 1 в соотвествующий товару карготип'''
+        """ Функция добавляет 1 в соответствующий товару карготип. """
         pivoted = pd.pivot_table(
             df.assign(val=1), values='val',
             index=['sku'], columns=['cargotypes'],
@@ -99,7 +99,7 @@ def predict(x: list[ProductToPredict] = Body()):
         return pivoted_def
 
     def merge_data(df):
-        '''Объединить данные'''
+        """ Объединить данные. """
         pivoted = make_types(df)
         df = pd.merge(df, pivoted, on=['sku'])
         df = df.drop(['cargotypes'], axis=1)
@@ -107,7 +107,7 @@ def predict(x: list[ProductToPredict] = Body()):
 
         return df
 
-    #заменим тип данных
+    # заменим тип данных
     new_data['cargotypes'] = new_data['cargotypes'].astype(float)
     # Преобразование признаков x из запроса
     df_for_model = merge_data(new_data)
@@ -121,7 +121,7 @@ def predict(x: list[ProductToPredict] = Body()):
         index=np.arange(len(df_for_model)),
         columns=col,
     )
-    # Объединие признаков
+    # Объедение признаков
     x_temp = pd.concat(
         [df_for_model, temp.reindex(df_for_model.index)],
         axis=1,
@@ -138,13 +138,13 @@ def predict(x: list[ProductToPredict] = Body()):
     temp_features = x_temp.loc[:, ['a', 'b', 'c', 'goods_wght']]
 
     def feature_volume(df):
-        '''Функция для создания признака объем для каждого sku в заказе'''
+        """ Функция для создания признака объем для каждого sku в заказе. """
         df['volume'] = df['a'] * df['b'] * df['c']
 
         return df
 
     def new_group_features(df):
-        '''создание статистических признаков для sku в заказе'''
+        """ Создание статистических признаков для sku в заказе. """
         df['goods_wght_mean'] = df['goods_wght'].mean()
         df['volume_mean'] = df['volume'].mean()
         df['volume_max'] = df['volume'].max()
@@ -160,20 +160,21 @@ def predict(x: list[ProductToPredict] = Body()):
         df['c_min'] = df['c'].min()
 
         return df
-    
+
     def new_features_log(df):
-        '''создание нового признака'''
-        
+        """ Создание нового признака. """
+
         def size_ratio(x, y, z):
-            '''добавление нового признака'''
-            
+            """ Добавление нового признака. """
+
             return x * y * z / (x + y + z + 1e-3)
-        
-        df['size'] = df.apply(lambda row: size_ratio(row['a'], row['b'], row['c']), axis=1)
-        
+
+        df['size'] = df.apply(
+            lambda row: size_ratio(row['a'], row['b'], row['c']), axis=1)
+
         return df
 
-    # Cоздадим новые признаки в соответствии с обучащими данными
+    # Создадим новые признаки в соответствии с обучающими данными
     temp_features = feature_volume(temp_features)
     temp_features = new_group_features(temp_features)
 
@@ -193,23 +194,22 @@ def predict(x: list[ProductToPredict] = Body()):
 
     # соединим данные по заказу со статистическими признаками для sku в заказе
     x = pd.concat([x, temp_features.reindex(x.index)], axis=1)
-    
-    #добавим новый признак
+
+    # добавим новый признак
     x = new_features_log(x)
-    
+
     x = x.drop('sku', axis=1)
     x['count'] = df_for_model['count'].sum()
 
     # Определим список отсортированных по размеру упаковок
     pack = [
         'NONPACK', 'STRETCH', 'YML', 'YMX',
-        'YME', 'YMG', 'YMW',  'YMF', 'YMC',
+        'YME', 'YMG', 'YMW', 'YMF', 'YMC',
         'MYE', 'MYD', 'YMA', 'MYC', 'YMV',
         'YMU', 'MYB', 'MYF', 'MYA',
     ]
-    
+
     x.sort_index(axis=1, inplace=True)
-     
 
     # Вызываем предсказание
     prediction = model.predict(x).tolist()
@@ -222,8 +222,8 @@ def predict(x: list[ProductToPredict] = Body()):
         try:
 
             if prediction[0] == pack[i]:
-                result.append(pack[i-1])
-                result.append(pack[i+1])
+                result.append(pack[i - 1])
+                result.append(pack[i + 1])
 
         except Exception:
 
@@ -238,5 +238,5 @@ def predict(x: list[ProductToPredict] = Body()):
 
     # Создадим словарь из результата
     y = {'s': y[2], 'm': y[0], 'l': y[1]}
-    
+
     return y

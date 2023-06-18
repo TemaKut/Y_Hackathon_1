@@ -14,12 +14,12 @@ class OrdersOperations():
         self.storage_ym = StorageYM()
 
     async def get_order_products(self, orderkey: str) -> list[dict]:
-        """ Получить обогощённую информацию о товарах в заказе. """
+        """ Получить обогащённую информацию о товарах в заказе. """
         # Получить заказ и компактизировать его до уникальных значений
         order_multi: list = await self.storage_ym.get_list_of_order(orderkey)
         unique_products: dict = await self._to_unique_products(order_multi)
 
-        # Запросить сотпутствующую информацию к каждому из уникальных товаров
+        # Запросить сопутствующую информацию к каждому из уникальных товаров
         size_cargo: dict = await self._get_size_and_cargo_for_products(
             list(unique_products.values()),
         )

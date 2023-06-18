@@ -14,5 +14,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Подключерие роутов
+# Подключение роутов
 app.include_router(api_router)
