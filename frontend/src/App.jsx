@@ -39,16 +39,17 @@ function App() {
       setKeyboardTitleText('Введите код ячейки');
       setIsKeyboardOpen(true);
     } else if (['/products'].includes(location.pathname)) {
-      navigate('/package');
+      setKeyboardTitleText('Введите код товара');
+      setIsKeyboardOpen(true);
     } else if (['/package'].includes(location.pathname)) {
+      navigate('/final');
+    } else if (['/final'].includes(location.pathname)) {
       setIsPopupOpen(true);
-      // navigate('/final');
     }
   }
 
   function goBack() {
-    // navigate(-1);
-    navigate('/products');
+    navigate(-1);
   }
 
   return (
