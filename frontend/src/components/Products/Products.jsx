@@ -1,11 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import useAsync from '../../utils/useAsync';
+import getOrderProducts from '../../utils/getOrderProducts';
 import Style from './Products.module.scss';
 import Button from '../UI/Button/Button';
 import Cell from '../Cell/Cell';
 import Card from './Card/Card';
 
-function Products() {
-  return (
+function Products({ cellName, orderKey }) {
+  const navigate = useNavigate();
+  const [productsCell, setProductsCell] = useState([]);
+  const [allChecked, setAllChecked] = useState(false);
+  let allProductsCount = 0;
+
+  const { value } = useAsync(getOrderProducts, orderKey);
+  useEffect(() => {
+    if (value) {
+      setProductsCell(value);
+    }
+  }, [value]);
+  if (productsCell) {
+    for (let i = 0; i < productsCell.length; i += 1) {
+      allProductsCount += productsCell[i].count;
+    }
+  }
+  const handleClickBtn = () => {
+    navigate('/package');
+  };
+
+  return productsCell ? (
     <section className={Style.products}>
       <Button
         // onClickBtn={handleClickBtn}
@@ -16,32 +40,51 @@ function Products() {
       >
         Есть проблема
       </Button>
-      <Cell />
+      <Cell cellName={cellName} />
       <div className={Style.productsContainer}>
         <div className={Style.specs}>
-          <span className={`${Style.amount} ${Style.spec}`}>6 товаров</span>
+          <span className={`${Style.amount} ${Style.spec}`}>
+            {allProductsCount} товар
+          </span>
           <span className={`${Style.delivery} ${Style.spec}`}>
             Почта России
           </span>
         </div>
         <ul className={Style.cards}>
-          <Card />
+          {productsCell.map(({ ...card }) => (
+            <Card
+              card={card}
+              setAllChecked={setAllChecked}
+              allChecked={allChecked}
+            />
+          ))}
         </ul>
       </div>
       <Button
-        // onClickBtn={handleClickBtn}
+        onClickBtn={handleClickBtn}
         // isHidden will be updated with logic
         isHidden
+        allChecked={allChecked}
         btnPosition="right"
         btnColor="yellow"
         btnSize="big"
-        isSubmit
+        // isSubmit
         ariaLabelText="Подобрать упаковку"
       >
         Подобрать упаковку
       </Button>
     </section>
-  );
+  ) : null;
 }
+
+Products.propTypes = {
+  cellName: PropTypes.string,
+  orderKey: PropTypes.string,
+};
+
+Products.defaultProps = {
+  cellName: '',
+  orderKey: '',
+};
 
 export default Products;

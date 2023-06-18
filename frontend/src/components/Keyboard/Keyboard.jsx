@@ -21,6 +21,8 @@ function Keyboard({ isKeyboardOpen, setIsKeyboardOpen, orderKey, titleText }) {
       setIsKeyboardOpen(false);
     } else if (inputValue === '') {
       alert('Введите номер заказа');
+    } else if (inputValue === 'skuProducts') {
+      setIsKeyboardOpen(false);
     } else {
       alert('Введен неверный номер заказа');
     }
