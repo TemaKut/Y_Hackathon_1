@@ -21,6 +21,7 @@ function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [keyboardTitleText, setKeyboardTitleText] = useState('');
   const [cellName, setCellName] = useState('');
+  const [orderKey, setOrderKey] = useState('');
   const { value } = useAsync(getOrderCell);
 
   const isStart = ['/'].includes(location.pathname);
@@ -29,6 +30,7 @@ function App() {
   useEffect(() => {
     if (value) {
       setCellName(value.cell);
+      setOrderKey(value.orderkey);
     }
   }, [value]);
 
@@ -37,10 +39,12 @@ function App() {
       setKeyboardTitleText('Введите код ячейки');
       setIsKeyboardOpen(true);
     } else if (['/products'].includes(location.pathname)) {
-      navigate('/package');
+      setKeyboardTitleText('Введите код товара');
+      setIsKeyboardOpen(true);
     } else if (['/package'].includes(location.pathname)) {
+      navigate('/final');
+    } else if (['/final'].includes(location.pathname)) {
       setIsPopupOpen(true);
-      // navigate('/final');
     }
   }
 
@@ -64,7 +68,11 @@ function App() {
               />
             }
           />
-          <Route exact path="/products" element={<Products />} />
+          <Route
+            exact
+            path="/products"
+            element={<Products cellName={cellName} orderKey={orderKey} />}
+          />
           <Route exact path="/package" element={<Package />} />
           <Route exact path="/final" element={<Final />} />
         </Routes>

@@ -16,7 +16,8 @@
 .infoContainer {
   box-sizing: border-box;
   display: flex;
-  gap: 24px;
+  gap: 32px;
+  width: 40.4%;
 }
 
 .image {
@@ -57,18 +58,36 @@
 }
 
 .quantity {
-  display: inline-block;
-  box-sizing: border-box;
-  height: 48px;
   margin: 0;
   padding: 12.5px 18px;
-  font-family: 'YS Text';
+  font-family: "YS Text";
   font-weight: 400;
   font-size: 20px;
   line-height: 1.15;
-  color: #fff;
+  position: inherit;
+  color: #000000;
+}
+
+.progressContainer{
+  position: relative;
+  display: flex;
+  height: 48px;
+}
+
+.progress {
+  width: 100%;
+  height: 100%;
+  position: absolute;
   border-radius: 100px;
-  background-color: #2AAD2E;
+  overflow: hidden;
+
+  &::-webkit-progress-bar{
+    background: rgba(243, 240, 233, 0.5);
+  }
+  
+  &::-webkit-progress-value{
+    background: rgba(42, 173, 46, 0.25);
+  }
 }
 
 .barcode {
