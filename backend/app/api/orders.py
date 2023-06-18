@@ -49,9 +49,8 @@ async def predict_package_by_orderkey(
     ds_api: DsAPI = Depends(),
 ):
     """ Предсказать упаковку(и) для заказа. """
-    await ds_api.predict_package(orderkey)
-    # TODO: После того как DS доделают модель - отдать результат
-    return 1
+
+    return await ds_api.predict_package(orderkey)
 
 
 @orders_router.get(
