@@ -133,7 +133,7 @@ Package.propTypes = {
   orderKey: PropTypes.string.isRequired,
   setOrderData: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
-  setLoading: PropTypes.string.isRequired,
+  setLoading: PropTypes.func.isRequired,
 };
 
 export default Package;
