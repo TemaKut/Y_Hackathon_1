@@ -110,7 +110,23 @@ function App() {
               />
             }
           />
-          <Route exact path="/package" element={<Package />} />
+          <Route
+            exact
+            path="/package"
+            element={
+              <Package
+                orderKey={orderData.orderkey}
+                setOrderData={(suggestedPackage) => {
+                  setOrderData((prevOrderData) => ({
+                    ...prevOrderData,
+                    suggestedPackage,
+                  }));
+                }}
+                setError={setError}
+                setLoading={setLoading}
+              />
+            }
+          />
           <Route exact path="/final" element={<Final />} />
         </Routes>
       </main>
