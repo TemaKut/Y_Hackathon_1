@@ -8,13 +8,13 @@ import Button from '../UI/Button/Button';
 import Cell from '../Cell/Cell';
 import Card from './Card/Card';
 
-function Products({ cellName, orderKey }) {
+function Products({ cellName, orderkey, setIsPopupOpen }) {
   const navigate = useNavigate();
   const [productsCell, setProductsCell] = useState([]);
   const [allChecked, setAllChecked] = useState(false);
   let allProductsCount = 0;
 
-  const { value } = useAsync(getOrderProducts, orderKey);
+  const { value } = useAsync(getOrderProducts, orderkey);
   useEffect(() => {
     if (value) {
       setProductsCell(value);
@@ -29,10 +29,15 @@ function Products({ cellName, orderKey }) {
     navigate('/package');
   };
 
+  const handleClickProblem = () => {
+    setIsPopupOpen(true);
+    setTimeout(setIsPopupOpen, 2000, false);
+  };
+
   return productsCell ? (
     <section className={Style.products}>
       <Button
-        // onClickBtn={handleClickBtn}
+        onClickBtn={handleClickProblem}
         btnPosition="left"
         btnColor="grey"
         btnSize="big"
@@ -79,12 +84,13 @@ function Products({ cellName, orderKey }) {
 
 Products.propTypes = {
   cellName: PropTypes.string,
-  orderKey: PropTypes.string,
+  orderkey: PropTypes.string,
+  setIsPopupOpen: PropTypes.bool.isRequired,
 };
 
 Products.defaultProps = {
   cellName: '',
-  orderKey: '',
+  orderkey: '',
 };
 
 export default Products;
