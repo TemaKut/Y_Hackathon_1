@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Style from './App.module.scss';
-import useAsync from './utils/useAsync';
 import getOrderCell from './utils/getOrderCell';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
@@ -18,22 +17,42 @@ import Final from './components/Final/Final';
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
+  // eslint-disable-next-line no-unused-vars
+  const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [error, setError] = useState(false);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [keyboardTitleText, setKeyboardTitleText] = useState('');
-  const [cellName, setCellName] = useState('');
-  const [orderKey, setOrderKey] = useState('');
-  const { value } = useAsync(getOrderCell);
+  const [orderData, setOrderData] = useState({
+    cell: '',
+    orderkey: '',
+    suggestedPackage: '',
+    chosenPackage: '',
+  });
 
   const isStart = ['/'].includes(location.pathname);
   const isFinal = ['/final'].includes(location.pathname);
 
+  const getOrderData = () => {
+    getOrderCell()
+      .then((response) => {
+        setOrderData(response);
+        localStorage.setItem('orderData', JSON.stringify(response));
+      })
+      .catch((err) => setError(err))
+      .finally(() => setLoading(false));
+  };
+
   useEffect(() => {
-    if (value) {
-      setCellName(value.cell);
-      setOrderKey(value.orderkey);
+    const storedOrderData = localStorage.getItem('orderData');
+
+    if (storedOrderData) {
+      setOrderData(JSON.parse(storedOrderData));
+    } else {
+      getOrderData();
     }
-  }, [value]);
+  }, []);
 
   function keyboardClick() {
     if (['/'].includes(location.pathname)) {
@@ -57,6 +76,10 @@ function App() {
     }
   }
 
+  // left the console.log for the convenience of testing
+  // eslint-disable-next-line no-console
+  console.log('orderData.orderkey', orderData.orderkey);
+
   return (
     <div className={Style.app}>
       <Header />
@@ -68,15 +91,29 @@ function App() {
             element={
               <Main
                 isStart={isStart}
-                cellName={cellName}
-                setCellName={setCellName}
+                cellName={orderData.cell}
+                setOrderData={(newCellName) => {
+                  setOrderData((prevOrderData) => ({
+                    ...prevOrderData,
+                    cell: newCellName,
+                  }));
+                  localStorage.setItem(
+                    'orderData',
+                    JSON.stringify({ ...orderData, cell: newCellName })
+                  );
+                }}
               />
             }
           />
           <Route
             exact
             path="/products"
-            element={<Products cellName={cellName} orderKey={orderKey} />}
+            element={
+              <Products
+                cellName={orderData.cell}
+                orderKey={orderData.orderkey}
+              />
+            }
           />
           <Route exact path="/package" element={<Package />} />
           <Route exact path="/final" element={<Final />} />
@@ -85,7 +122,7 @@ function App() {
       <Keyboard
         isKeyboardOpen={isKeyboardOpen}
         setIsKeyboardOpen={setIsKeyboardOpen}
-        orderKey={value.orderkey}
+        orderKey={orderData.orderkey}
         titleText={keyboardTitleText}
       />
       <Popup isPopupOpen={isPopupOpen} />
