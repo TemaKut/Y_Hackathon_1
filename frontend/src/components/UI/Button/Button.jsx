@@ -43,7 +43,7 @@ Button.propTypes = {
   btnSize: PropTypes.string.isRequired,
   isSubmit: PropTypes.bool,
   children: PropTypes.node.isRequired,
-  ariaLabelText: PropTypes.func.isRequired,
+  ariaLabelText: PropTypes.string.isRequired,
 };
 
 Button.defaultProps = {

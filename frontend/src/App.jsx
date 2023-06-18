@@ -122,9 +122,17 @@ function App() {
             path="/package"
             element={
               <Package
+                orderKey={orderData.orderkey}
+                setOrderData={(suggestedPackage) => {
+                  setOrderData((prevOrderData) => ({
+                    ...prevOrderData,
+                    suggestedPackage,
+                  }));
+                }}
+                setError={setError}
+                setLoading={setLoading}
                 isKeyboardOpen={isKeyboardOpen}
                 setIsKeyboardOpen={setIsKeyboardOpen}
-                orderKey={orderData.orderkey}
               />
             }
           />
