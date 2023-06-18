@@ -1,10 +1,14 @@
-const packageResult = {
-  s: 'YMA',
-  m: 'YMF',
-  l: 'MYF',
-};
-
-const packageData = [
+const packagePropertiesData = [
+  {
+    name: 'STRETCH',
+    type: 'none',
+    backgroundColor: 'grey',
+  },
+  {
+    name: 'NONPACK',
+    type: 'none',
+    backgroundColor: 'grey',
+  },
   {
     name: 'YMA',
     type: 'box',
@@ -52,4 +56,4 @@ const packageData = [
   },
 ];
 
-export default { packageResult, packageData };
+export default packagePropertiesData;
