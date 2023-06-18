@@ -15,8 +15,12 @@ def predict(x = Body()):
     """
 
     # Загрузка модели
-    with open('app/pickle_model/model_lgbm_v4.pcl', 'rb') as fid:
-        model = pickle.load(fid)
+    try:
+        with open('app/pickle_model/model_lgbm_v4.pcl', 'rb') as fid:
+            model = pickle.load(fid)
+    except:
+        with open('code/app/pickle_model/model_lgbm_v4.pcl', 'rb') as fid:
+            model = pickle.load(fid)
 
     # Названия столбцов из тренировочного датасета
     col = [
