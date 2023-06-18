@@ -19,7 +19,7 @@ def predict(x = Body()):
         with open('app/pickle_model/model_lgbm_v4.pcl', 'rb') as fid:
             model = pickle.load(fid)
     except:
-        with open('/app/pickle_model/model_lgbm_v4.pcl', 'rb') as fid:
+        with open('/code/app/pickle_model/model_lgbm_v4.pcl', 'rb') as fid:
             model = pickle.load(fid)
 
     # Названия столбцов из тренировочного датасета
