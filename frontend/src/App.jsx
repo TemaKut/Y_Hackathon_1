@@ -34,11 +34,24 @@ function App() {
   const isStart = ['/'].includes(location.pathname);
   const isFinal = ['/final'].includes(location.pathname);
 
-  useEffect(() => {
+  const getOrderData = () => {
     getOrderCell()
-      .then((response) => setOrderData(response))
+      .then((response) => {
+        setOrderData(response);
+        localStorage.setItem('orderData', JSON.stringify(response));
+      })
       .catch((err) => setError(err))
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    const storedOrderData = localStorage.getItem('orderData');
+
+    if (storedOrderData) {
+      setOrderData(JSON.parse(storedOrderData));
+    } else {
+      getOrderData();
+    }
   }, []);
 
   function keyboardClick() {
@@ -63,6 +76,10 @@ function App() {
     }
   }
 
+  // left the console.log for the convenience of testing
+  // eslint-disable-next-line no-console
+  console.log('orderData.orderkey', orderData.orderkey);
+
   return (
     <div className={Style.app}>
       <Header />
@@ -75,7 +92,16 @@ function App() {
               <Main
                 isStart={isStart}
                 cellName={orderData.cell}
-                setOrderData={setOrderData}
+                setOrderData={(newCellName) => {
+                  setOrderData((prevOrderData) => ({
+                    ...prevOrderData,
+                    cell: newCellName,
+                  }));
+                  localStorage.setItem(
+                    'orderData',
+                    JSON.stringify({ ...orderData, cell: newCellName })
+                  );
+                }}
               />
             }
           />

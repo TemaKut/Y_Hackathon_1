@@ -9,10 +9,7 @@ function Main({ cellName, setOrderData }) {
   const handleClickBtn = async () => {
     const newValue = await getOrderCell();
 
-    setOrderData((prevOrderData) => ({
-      ...prevOrderData,
-      cell: newValue.cell,
-    }));
+    setOrderData(newValue.cell);
   };
 
   return (
