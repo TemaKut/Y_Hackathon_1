@@ -140,6 +140,7 @@ function Package({
         setIsKeyboardOpen={setIsKeyboardOpen}
         orderKey={orderKey}
         titleText="Введите код упаковки"
+        isPackage
       />
     </>
   ) : null;
