@@ -1,17 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Style from './Main.module.scss';
-import getOrderCell from '../../utils/getOrderCell';
+// import getOrderCell from '../../utils/getOrderCell';
 import Cell from '../Cell/Cell';
 import Button from '../UI/Button/Button';
 
-function Main({ cellName, setOrderData }) {
-  const handleClickBtn = async () => {
-    const newValue = await getOrderCell();
-
-    setOrderData(newValue.cell);
-  };
-
+function Main({ cellName, handleClickBtn }) {
   return (
     <section className={Style.main}>
       <Cell cellName={cellName} />
@@ -31,7 +25,7 @@ function Main({ cellName, setOrderData }) {
 
 Main.propTypes = {
   cellName: PropTypes.string,
-  setOrderData: PropTypes.func.isRequired,
+  handleClickBtn: PropTypes.func.isRequired,
 };
 
 Main.defaultProps = {
