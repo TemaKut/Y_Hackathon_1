@@ -7,7 +7,7 @@ import Style from './App.module.scss';
 import getOrderCell from './utils/getOrderCell';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
-import Keyboard from './components/Keyboard/Keyboard';
+// import Keyboard from './components/Keyboard/Keyboard';
 import Popup from './components/Popup/Popup';
 import Footer from './components/Footer/Footer';
 import Products from './components/Products/Products';
@@ -23,7 +23,7 @@ function App() {
   const [error, setError] = useState(false);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [keyboardTitleText, setKeyboardTitleText] = useState('');
+  // const [keyboardTitleText, setKeyboardTitleText] = useState('');
   const [orderData, setOrderData] = useState({
     cell: '',
     orderkey: '',
@@ -56,10 +56,10 @@ function App() {
 
   function keyboardClick() {
     if (['/'].includes(location.pathname)) {
-      setKeyboardTitleText('Введите код ячейки');
+      // setKeyboardTitleText('Введите код ячейки');
       setIsKeyboardOpen(true);
     } else if (['/products'].includes(location.pathname)) {
-      setKeyboardTitleText('Введите код товара');
+      // setKeyboardTitleText('Введите код товара');
       setIsKeyboardOpen(true);
     } else if (['/package'].includes(location.pathname)) {
       navigate('/final');
@@ -102,6 +102,9 @@ function App() {
                     JSON.stringify({ ...orderData, cell: newCellName })
                   );
                 }}
+                isKeyboardOpen={isKeyboardOpen}
+                setIsKeyboardOpen={setIsKeyboardOpen}
+                orderKey={orderData.orderkey}
               />
             }
           />
@@ -119,12 +122,12 @@ function App() {
           <Route exact path="/final" element={<Final />} />
         </Routes>
       </main>
-      <Keyboard
+      {/* <Keyboard
         isKeyboardOpen={isKeyboardOpen}
         setIsKeyboardOpen={setIsKeyboardOpen}
         orderKey={orderData.orderkey}
         titleText={keyboardTitleText}
-      />
+      /> */}
       <Popup isPopupOpen={isPopupOpen} />
       <Footer
         goBack={footerButtonClick}
