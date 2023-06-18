@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Style from './Card.module.scss';
-// import image from '../../../images/s-l400.jpg';
 
 function Products({ card, setAllChecked, allChecked }) {
   const [scanedCount, setScanedCount] = useState(0);
