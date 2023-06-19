@@ -9,6 +9,7 @@ function Keyboard({
   isKeyboardOpen,
   setIsKeyboardOpen,
   compareData,
+  setChosenPackage,
   nextRoute,
   titleText,
   isPackage,
@@ -26,6 +27,7 @@ function Keyboard({
 
   const handleClickBtn = () => {
     if (isPackage) {
+      setChosenPackage(inputValue);
       navigate(nextRoute);
     }
     if (inputValue === compareData) {
@@ -75,16 +77,21 @@ function Keyboard({
 Keyboard.propTypes = {
   isKeyboardOpen: PropTypes.bool.isRequired,
   setIsKeyboardOpen: PropTypes.func.isRequired,
+  setChosenPackage: PropTypes.func,
   compareData: PropTypes.string.isRequired,
   nextRoute: PropTypes.string.isRequired,
   titleText: PropTypes.string.isRequired,
   isPackage: PropTypes.bool,
+  // eslint-disable-next-line react/require-default-props
   setIsPopupOpen: PropTypes.func.isRequired,
   handleScanSku: PropTypes.func.isRequired,
 };
 
 Keyboard.defaultProps = {
+  setChosenPackage: () => {},
   isPackage: false,
+  // eslint-disable-next-line react/default-props-match-prop-types
+  setIsPopupOpen: () => {},
 };
 
 export default Keyboard;

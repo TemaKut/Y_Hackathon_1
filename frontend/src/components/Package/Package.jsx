@@ -12,11 +12,12 @@ import bagImage from '../../images/bagImage.svg';
 
 function Package({
   orderKey,
-  setOrderData,
+  setSuggestedPackage,
   setError,
   setLoading,
   isKeyboardOpen,
   setIsKeyboardOpen,
+  setChosenPackage,
 }) {
   const [packageData, setPackageData] = useState({
     s: '',
@@ -71,7 +72,7 @@ function Package({
   }, [orderKey]);
 
   useEffect(() => {
-    setOrderData(packageName);
+    setSuggestedPackage(packageName);
   }, [packageName]);
 
   return packageData && packageName && packageProperties ? (
@@ -151,7 +152,8 @@ function Package({
       <Keyboard
         isKeyboardOpen={isKeyboardOpen}
         setIsKeyboardOpen={setIsKeyboardOpen}
-        orderKey={orderKey}
+        setChosenPackage={setChosenPackage}
+        nextRoute="/final"
         titleText="Введите код упаковки"
         isPackage
       />
@@ -161,11 +163,16 @@ function Package({
 
 Package.propTypes = {
   orderKey: PropTypes.string.isRequired,
-  setOrderData: PropTypes.func.isRequired,
+  setSuggestedPackage: PropTypes.func.isRequired,
   setError: PropTypes.func.isRequired,
   setLoading: PropTypes.func.isRequired,
   isKeyboardOpen: PropTypes.bool.isRequired,
   setIsKeyboardOpen: PropTypes.func.isRequired,
+  setChosenPackage: PropTypes.func,
+};
+
+Package.defaultProps = {
+  setChosenPackage: () => {},
 };
 
 export default Package;

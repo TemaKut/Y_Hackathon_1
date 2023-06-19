@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-bind */
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
@@ -9,7 +8,6 @@ import Header from './components/Header/Header';
 import Main from './components/Main/Main';
 import Popup from './components/Popup/Popup';
 import Footer from './components/Footer/Footer';
-// eslint-disable-next-line import/no-named-as-default, import/no-named-as-default-member
 import Products from './components/Products/Products';
 import Package from './components/Package/Package';
 import Final from './components/Final/Final';
@@ -17,7 +15,6 @@ import Final from './components/Final/Final';
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
-  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(false);
@@ -80,27 +77,24 @@ function App() {
     } else setIsPopupOpen(false);
   }, [loading]);
 
-  function keyboardClick() {
+  const keyboardClick = () => {
     if (['/'].includes(location.pathname)) {
       setIsKeyboardOpen((prev) => !prev);
     } else if (['/products'].includes(location.pathname)) {
       setIsKeyboardOpen((prev) => !prev);
     } else if (['/package'].includes(location.pathname)) {
       setIsKeyboardOpen((prev) => !prev);
-    } else if (['/final'].includes(location.pathname)) {
-      // не забыть удалить это условие, если оно не нужно
-      setIsPopupOpen(true);
     }
-  }
+  };
 
-  function footerButtonClick() {
+  const footerButtonClick = () => {
     if (isStart) {
       setIsPopupOpen(true);
       setTimeout(setIsPopupOpen, 2000, false);
     } else {
       navigate(-1);
     }
-  }
+  };
 
   // left the console.log for the convenience of testing
   // eslint-disable-next-line no-console
@@ -145,7 +139,7 @@ function App() {
             element={
               <Package
                 orderKey={orderData.orderkey}
-                setOrderData={(suggestedPackage) => {
+                setSuggestedPackage={(suggestedPackage) => {
                   setOrderData((prevOrderData) => ({
                     ...prevOrderData,
                     suggestedPackage,
@@ -155,10 +149,20 @@ function App() {
                 setLoading={setLoading}
                 isKeyboardOpen={isKeyboardOpen}
                 setIsKeyboardOpen={setIsKeyboardOpen}
+                setChosenPackage={(chosenPackage) => {
+                  setOrderData((prevOrderData) => ({
+                    ...prevOrderData,
+                    chosenPackage,
+                  }));
+                }}
               />
             }
           />
-          <Route exact path="/final" element={<Final />} />
+          <Route
+            exact
+            path="/final"
+            element={<Final setOrderData={setOrderData} />}
+          />
         </Routes>
       </main>
       <Popup
