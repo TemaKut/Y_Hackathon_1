@@ -38,6 +38,7 @@ function App() {
 
   const getOrderData = () => {
     getOrderCell()
+      .then(setLoading(true))
       .then((response) => {
         setOrderData(response);
         localStorage.setItem('orderData', JSON.stringify(response));
@@ -48,6 +49,7 @@ function App() {
 
   const getProducts = () => {
     getOrderProducts(orderData.orderkey)
+      .then(setLoading(true))
       .then((response) => {
         setProductsCell(response);
       })
@@ -70,6 +72,13 @@ function App() {
       getProducts();
     }
   }, [orderData]);
+
+  useEffect(() => {
+    if (loading) {
+      setIsPopupOpen(true);
+      setTimeout(setIsPopupOpen, 2000, false);
+    } else setIsPopupOpen(false);
+  }, [loading]);
 
   function keyboardClick() {
     if (['/'].includes(location.pathname)) {
@@ -113,6 +122,7 @@ function App() {
                 isKeyboardOpen={isKeyboardOpen}
                 setIsKeyboardOpen={setIsKeyboardOpen}
                 orderKey={orderData.orderkey}
+                setIsPopupOpen={setIsPopupOpen}
               />
             }
           />
@@ -157,6 +167,7 @@ function App() {
         isProducts={isProducts}
         isPopupOpen={isPopupOpen}
         isKeyboardOpen={isKeyboardOpen}
+        loading={loading}
       />
       <Footer
         goBack={footerButtonClick}

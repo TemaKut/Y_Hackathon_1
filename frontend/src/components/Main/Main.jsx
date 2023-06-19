@@ -11,6 +11,7 @@ function Main({
   setIsKeyboardOpen,
   orderKey,
   handleClickBtn,
+  setIsPopupOpen,
 }) {
   return (
     <>
@@ -23,6 +24,7 @@ function Main({
           btnSize="big"
           isSubmit={false}
           ariaLabelText="Взять другое задание"
+          setIsPopupOpen={setIsPopupOpen}
         >
           Взять другое задание
         </Button>
@@ -33,6 +35,7 @@ function Main({
         compareData={orderKey}
         nextRoute="/products"
         titleText="Введите код ячейки"
+        setIsPopupOpen={setIsPopupOpen}
       />
     </>
   );
@@ -44,6 +47,7 @@ Main.propTypes = {
   isKeyboardOpen: PropTypes.bool.isRequired,
   setIsKeyboardOpen: PropTypes.func.isRequired,
   orderKey: PropTypes.string.isRequired,
+  setIsPopupOpen: PropTypes.func.isRequired,
 };
 
 Main.defaultProps = {
