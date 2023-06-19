@@ -66,13 +66,10 @@ function Products({
         </div>
         <Button
           onClickBtn={handleClickBtn}
-          // isHidden will be updated with logic
-          isHidden
-          allChecked={allChecked}
+          isHidden={!allChecked}
           btnPosition="right"
           btnColor="yellow"
           btnSize="big"
-          // isSubmit
           ariaLabelText="Подобрать упаковку"
         >
           Подобрать упаковку
