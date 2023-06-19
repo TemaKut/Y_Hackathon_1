@@ -1,0 +1,28 @@
+.title {
+    margin: 35px auto 0;
+    font-family: 'YS Text', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 48px;
+    line-height: 50px;
+    text-align: center;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #212121;
+    top: 0;
+    position: absolute;
+}
+
+.start {
+    top: 250px;
+    letter-spacing: -0.02em;
+}
+
+.cellName {
+    display: block;
+    margin: 8px 0 0;
+    font-family: 'YS Display', sans-serif;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 70px;
+    letter-spacing: 0.02em;
+}

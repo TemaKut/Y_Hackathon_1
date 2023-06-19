@@ -1,0 +1,20 @@
+<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_431_2270)">
+<mask id="mask0_431_2270" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="44" height="44">
+<ellipse cx="22.1023" cy="22.0007" rx="21.1902" ry="21.1902" fill="white"/>
+</mask>
+<g mask="url(#mask0_431_2270)">
+<rect width="42.3804" height="42.3804" transform="translate(0.912109 0.810547)" fill="url(#paint0_linear_431_2270)"/>
+<path d="M0.912109 37.5164L11.0284 25.4416L8.55096 34.8973L16.2276 37.6784L27.6333 21.4196L25.1344 30.7172L31.3533 34.3158L43.2925 22.3668V12.534L34.825 21.0171L36.7041 10.3394L28.8758 7.48242L17.618 23.5454L18.7387 16.2555L12.6048 12.7179L0.912109 26.6604V37.5164Z" fill="black"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_431_2270" x1="21.1902" y1="-10.0848" x2="21.1902" y2="46.4033" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFE55B"/>
+<stop offset="1" stop-color="#FFCC00"/>
+</linearGradient>
+<clipPath id="clip0_431_2270">
+<rect x="0.912109" y="0.810547" width="42.3804" height="42.3804" rx="21.1902" fill="white"/>
+</clipPath>
+</defs>
+</svg>

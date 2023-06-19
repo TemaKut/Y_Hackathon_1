@@ -1,0 +1,13 @@
+.app {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.content {
+    height: 79.26vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}

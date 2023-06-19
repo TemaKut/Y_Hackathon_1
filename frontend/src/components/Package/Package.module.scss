@@ -1,0 +1,57 @@
+.package {
+    padding-top: 97px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    height: 100%;
+    align-items: center;
+}
+
+.buttons {
+    position: absolute;
+    left: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.title {
+    margin: 0px 0 35px;
+    font-family: 'YS Display', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 130%;
+    letter-spacing: 0.02em;
+    text-align: center;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #212121;
+}
+
+.packageName {
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 0 0 40px;
+    display: flex;
+    align-items: center;
+    font-family: 'YS Text', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 56px;
+    line-height: 23px;
+    letter-spacing: -0.01em;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #FFFFFF;
+    min-width: 213px;
+    background: #F29A00;
+    border-radius: 24px;
+}
+
+.icon {
+    width: 64px;
+    height: 64px;
+}
+
+.image {
+    display: block;
+}

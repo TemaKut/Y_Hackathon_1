@@ -1,0 +1,95 @@
+.footer {
+    padding: 20px 0 20px 24px;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    box-shadow: 0px 5px 46px rgba(0, 0, 0, 0.12), 0px 7px 15px rgba(0, 0, 0, 0.12);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+
+    &.done {
+        background: #2AAD2E;
+    }
+
+    &.error {
+        background: #FF0000;
+    }
+
+    &.anomaly {
+        background: #FFA200;
+    }
+}
+
+.footer__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 296px;
+    height: 6.6vh;
+    background: #212121;
+    border-radius: 24px;
+    font-family: 'YS Text';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 31px;
+    letter-spacing: -0.015em;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+    color: #FFFFFF;
+    border: none;
+    cursor: pointer;
+    transition: .3s ease-in-out;
+
+    &:hover {
+        background: #000000;
+    }
+
+    &.nodefault {
+        background: #F3F0E9;
+        color: #212121;
+
+        &:hover {
+            background: #DEDEDE;
+        }
+    }
+}
+
+.footer__boardlogo {
+    margin-right: 12px;
+    width: 48px;
+    height: 48px;
+}
+
+.footer__boardtitle {
+    margin: 0;
+    font-family: 'YS Text';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 28px;
+    line-height: 31px;
+    letter-spacing: -0.015em;
+    font-feature-settings: 'pnum' on, 'lnum' on;
+
+    &.nodefault {
+        color: #FFFFFF;
+    }
+
+}
+
+.container {
+    background: none;
+    padding: 0;
+    margin: 0 auto;
+    border: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    width: 332px;
+    height: 72px;
+    cursor: pointer;
+}
