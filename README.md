@@ -52,4 +52,4 @@ ds:
 - http://localhost:8000/docs (Документация backend)
 - http://localhost:8001/docs (Документация yandex mock server)
 - http://localhost:8002/docs (Документация сервера DS)
-- http://localhost:3000/ (Полноценное приложение (frontend))
+- http://localhost/ (Полноценное приложение (frontend))
