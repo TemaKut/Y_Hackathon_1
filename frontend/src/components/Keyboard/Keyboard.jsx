@@ -35,11 +35,11 @@ function Keyboard({
       setIsPopupOpen(true);
       setTimeout(setIsPopupOpen, 2000, false);
     } else if (inputValue === 'skuProducts') {
-      setIsKeyboardOpen(false);
-    } else {
-      // alert('Введен неверный номер заказа');
       setIsPopupOpen(true);
-      setTimeout(setIsPopupOpen, 2000, false);
+    } else {
+      alert('Введен неверный номер заказа');
+      // setIsPopupOpen(true);
+      // setTimeout(setIsPopupOpen, 2000, false);
     }
   };
 
@@ -78,7 +78,7 @@ Keyboard.propTypes = {
   nextRoute: PropTypes.string.isRequired,
   titleText: PropTypes.string.isRequired,
   isPackage: PropTypes.bool,
-  setIsPopupOpen: PropTypes.bool.isRequired,
+  setIsPopupOpen: PropTypes.func.isRequired,
 };
 
 Keyboard.defaultProps = {

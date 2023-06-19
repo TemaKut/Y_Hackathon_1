@@ -9,16 +9,21 @@ function Popup({
   isProducts,
   isPopupOpen,
   isKeyboardOpen,
+  loading,
 }) {
   const [popupText, setPopupText] = useState('');
   useEffect(
     () => {
-      console.log(isKeyboardOpen);
-      if (isKeyboardOpen) {
+      if (loading) {
+        setPopupText('Данные загружаются');
+      } else if (isKeyboardOpen) {
         setPopupText('Некорректная попытка запроса');
       } else if (isPackage) {
         setPopupText('Спасибо за информацию!');
-      } else if (!isKeyboardOpen && (isStart || isProducts)) {
+      } else if (
+        !isKeyboardOpen &&
+        ((!loading && isStart) || (!loading && isProducts))
+      ) {
         setPopupText('Скоро придут Вам помочь');
       }
     },
@@ -50,6 +55,7 @@ Popup.propTypes = {
   isStart: PropTypes.bool,
   isPackage: PropTypes.bool,
   isProducts: PropTypes.bool,
+  loading: PropTypes.bool.isRequired,
 };
 
 Popup.defaultProps = {
