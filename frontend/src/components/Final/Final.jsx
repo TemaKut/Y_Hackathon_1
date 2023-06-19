@@ -9,6 +9,12 @@ function Final({ setOrderData }) {
   const navigate = useNavigate();
 
   const handleClickBtn = () => {
+    setOrderData({
+      cell: '',
+      orderkey: '',
+      suggestedPackage: '',
+      chosenPackage: '',
+    });
     navigate('/');
   };
 
