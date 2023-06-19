@@ -158,7 +158,11 @@ function App() {
               />
             }
           />
-          <Route exact path="/final" element={<Final />} />
+          <Route
+            exact
+            path="/final"
+            element={<Final setOrderData={setOrderData} />}
+          />
         </Routes>
       </main>
       <Popup

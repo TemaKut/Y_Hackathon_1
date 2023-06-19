@@ -1,10 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Style from './Final.module.scss';
 import Button from '../UI/Button/Button';
 import imgSucces from '../../images/succes.png';
 
-function Package() {
+function Final({ setOrderData }) {
   const navigate = useNavigate();
 
   const handleClickBtn = () => {
@@ -36,4 +37,8 @@ function Package() {
   );
 }
 
-export default Package;
+Final.propTypes = {
+  setOrderData: PropTypes.func.isRequired,
+};
+
+export default Final;
