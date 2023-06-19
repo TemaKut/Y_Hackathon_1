@@ -37,7 +37,6 @@ function Keyboard({
       setIsPopupOpen(true);
       setTimeout(setIsPopupOpen, 2000, false);
     } else if (inputValue === allProductsInfo[0].sku) {
-      console.log('товар смэтчен');
       handleScanSku();
       setIsKeyboardOpen(false);
     } else {

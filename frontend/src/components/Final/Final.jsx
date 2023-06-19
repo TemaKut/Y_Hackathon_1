@@ -5,16 +5,11 @@ import Style from './Final.module.scss';
 import Button from '../UI/Button/Button';
 import imgSucces from '../../images/succes.png';
 
-function Final({ setOrderData }) {
+function Final({ setIsKeyboardOpen }) {
   const navigate = useNavigate();
 
   const handleClickBtn = () => {
-    setOrderData({
-      cell: '',
-      orderkey: '',
-      suggestedPackage: '',
-      chosenPackage: '',
-    });
+    setIsKeyboardOpen(false);
     navigate('/');
   };
 
@@ -44,7 +39,9 @@ function Final({ setOrderData }) {
 }
 
 Final.propTypes = {
-  setOrderData: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  setIsKeyboardOpen: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
 };
 
 export default Final;

@@ -19,7 +19,6 @@ function Products({
   let allProductsCount = 0;
   const [scanedCount, setScanedCount] = useState(0);
   const handleScanSku = () => setScanedCount(scanedCount + 1);
-  console.log(scanedCount);
 
   if (productsCell) {
     for (let i = 0; i < productsCell.length; i += 1) {

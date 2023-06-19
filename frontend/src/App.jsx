@@ -161,7 +161,7 @@ function App() {
           <Route
             exact
             path="/final"
-            element={<Final setOrderData={setOrderData} />}
+            element={<Final setIsKeyboardOpen={setIsKeyboardOpen} />}
           />
         </Routes>
       </main>
