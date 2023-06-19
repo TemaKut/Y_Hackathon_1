@@ -1,25 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import useAsync from '../../utils/useAsync';
-import getOrderProducts from '../../utils/getOrderProducts';
 import Style from './Products.module.scss';
 import Button from '../UI/Button/Button';
 import Cell from '../Cell/Cell';
 import Card from './Card/Card';
 
-function Products({ cellName, orderkey, setIsPopupOpen }) {
+function Products({ cellName, productsCell, setIsPopupOpen }) {
   const navigate = useNavigate();
-  const [productsCell, setProductsCell] = useState([]);
   const [allChecked, setAllChecked] = useState(false);
   let allProductsCount = 0;
 
-  const { value } = useAsync(getOrderProducts, orderkey);
-  useEffect(() => {
-    if (value) {
-      setProductsCell(value);
-    }
-  }, [value]);
   if (productsCell) {
     for (let i = 0; i < productsCell.length; i += 1) {
       allProductsCount += productsCell[i].count;
@@ -84,13 +75,14 @@ function Products({ cellName, orderkey, setIsPopupOpen }) {
 
 Products.propTypes = {
   cellName: PropTypes.string,
-  orderkey: PropTypes.string,
+  // orderkey: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
+  productsCell: PropTypes.object.isRequired,
   setIsPopupOpen: PropTypes.bool.isRequired,
 };
 
 Products.defaultProps = {
   cellName: '',
-  orderkey: '',
 };
 
 export default Products;

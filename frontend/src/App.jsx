@@ -1,10 +1,10 @@
-/* eslint-disable no-alert */
 /* eslint-disable react/jsx-no-bind */
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 
 import Style from './App.module.scss';
 import getOrderCell from './utils/getOrderCell';
+import getOrderProducts from './utils/getOrderProducts';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
 import Keyboard from './components/Keyboard/Keyboard';
@@ -30,6 +30,7 @@ function App() {
     suggestedPackage: '',
     chosenPackage: '',
   });
+  const [productsCell, setProductsCell] = useState([]);
 
   const isStart = ['/'].includes(location.pathname);
   const isFinal = ['/final'].includes(location.pathname);
@@ -46,6 +47,15 @@ function App() {
       .finally(() => setLoading(false));
   };
 
+  const getProducts = () => {
+    getOrderProducts(orderData.orderkey)
+      .then((response) => {
+        setProductsCell(response);
+      })
+      .catch((err) => setError(err))
+      .finally(() => setLoading(false));
+  };
+
   useEffect(() => {
     const storedOrderData = localStorage.getItem('orderData');
 
@@ -55,6 +65,12 @@ function App() {
       getOrderData();
     }
   }, []);
+
+  useEffect(() => {
+    if (orderData) {
+      getProducts();
+    }
+  }, [orderData]);
 
   function keyboardClick() {
     if (['/'].includes(location.pathname)) {
@@ -104,8 +120,8 @@ function App() {
             path="/products"
             element={
               <Products
+                productsCell={productsCell}
                 cellName={orderData.cell}
-                orderkey={orderData.orderkey}
                 setIsPopupOpen={setIsPopupOpen}
               />
             }
