@@ -1,15 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Style from './Card.module.scss';
 import degaultImage from '../../../images/default_product_logo.png';
 
-function Products({ card, setAllChecked, allChecked }) {
-  const [scanedCount, setScanedCount] = useState(0);
+function Card({ card, setAllChecked, allChecked, scanedCount, allSkuArr }) {
   const urlImage = degaultImage || card.sku_logo_url;
-  const handleScanSku = () => setScanedCount(scanedCount + 1);
+  const oneProduct = {
+    sku: '',
+    count: '',
+  };
+
   if (scanedCount === card.count) {
     setAllChecked(true);
   } else setAllChecked(false);
+
+  if (card) {
+    oneProduct.sku = card.sku;
+    oneProduct.count = card.count;
+    allSkuArr.push(oneProduct);
+    localStorage.setItem('allProductsInfo', JSON.stringify(allSkuArr));
+  }
 
   return (
     <li className={Style.card}>
@@ -33,23 +43,26 @@ function Products({ card, setAllChecked, allChecked }) {
           </p>
         )}
       </div>
-      <button onClick={handleScanSku} type="button" className={Style.barcode}>
-        {card.sku}
-      </button>
+      <p className={Style.barcode}>{card.sku}</p>
     </li>
   );
 }
 
-Products.propTypes = {
+Card.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   card: PropTypes.object,
   setAllChecked: PropTypes.func.isRequired,
   allChecked: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
+  allSkuArr: PropTypes.array,
+  scanedCount: PropTypes.string,
 };
 
-Products.defaultProps = {
+Card.defaultProps = {
   card: {},
   allChecked: false,
+  scanedCount: 0,
+  allSkuArr: [],
 };
 
-export default Products;
+export default Card;

@@ -17,6 +17,9 @@ function Products({
   const navigate = useNavigate();
   const [allChecked, setAllChecked] = useState(false);
   let allProductsCount = 0;
+  const [scanedCount, setScanedCount] = useState(0);
+  const handleScanSku = () => setScanedCount(scanedCount + 1);
+  console.log(scanedCount);
 
   if (productsCell) {
     for (let i = 0; i < productsCell.length; i += 1) {
@@ -26,11 +29,15 @@ function Products({
   const handleClickBtn = () => {
     navigate('/package');
   };
+  // eslint-disable-next-line prefer-const
+  let allSkuArr = [];
 
   const handleClickProblem = () => {
     setIsPopupOpen(true);
     setTimeout(setIsPopupOpen, 2000, false);
   };
+  // eslint-disable-next-line prefer-const
+  // let allSkuArr = [];
 
   return productsCell ? (
     <>
@@ -57,9 +64,11 @@ function Products({
           <ul className={Style.cards}>
             {productsCell.map(({ ...card }) => (
               <Card
+                allSkuArr={allSkuArr}
                 card={card}
                 setAllChecked={setAllChecked}
                 allChecked={allChecked}
+                scanedCount={scanedCount}
               />
             ))}
           </ul>
@@ -79,6 +88,9 @@ function Products({
         </Button>
       </section>
       <Keyboard
+        handleScanSku={handleScanSku}
+        scanedCount={scanedCount}
+        setScanedCount={setScanedCount}
         isKeyboardOpen={isKeyboardOpen}
         setIsKeyboardOpen={setIsKeyboardOpen}
         // will be updated with validation sku logic

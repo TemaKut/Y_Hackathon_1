@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -14,6 +13,7 @@ function Keyboard({
   titleText,
   isPackage,
   setIsPopupOpen,
+  handleScanSku,
 }) {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
@@ -22,6 +22,7 @@ function Keyboard({
   const handleChange = (e) => {
     setInputValue(() => e.target.value);
   };
+  const allProductsInfo = JSON.parse(localStorage.getItem('allProductsInfo'));
 
   const handleClickBtn = () => {
     if (isPackage) {
@@ -33,8 +34,10 @@ function Keyboard({
     } else if (inputValue === '') {
       setIsPopupOpen(true);
       setTimeout(setIsPopupOpen, 2000, false);
-    } else if (inputValue === 'skuProducts') {
-      setIsPopupOpen(true);
+    } else if (inputValue === allProductsInfo[0].sku) {
+      console.log('товар смэтчен');
+      handleScanSku();
+      setIsKeyboardOpen(false);
     } else {
       setIsPopupOpen(true);
       setTimeout(setIsPopupOpen, 2000, false);
@@ -77,6 +80,7 @@ Keyboard.propTypes = {
   titleText: PropTypes.string.isRequired,
   isPackage: PropTypes.bool,
   setIsPopupOpen: PropTypes.func.isRequired,
+  handleScanSku: PropTypes.func.isRequired,
 };
 
 Keyboard.defaultProps = {
