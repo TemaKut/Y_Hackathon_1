@@ -75,7 +75,6 @@ function App() {
 
   useEffect(() => {
     if (loading) {
-      console.log(1);
       setIsPopupOpen(true);
       setTimeout(setIsPopupOpen, 2000, false);
     } else setIsPopupOpen(false);
