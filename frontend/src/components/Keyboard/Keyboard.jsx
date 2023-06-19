@@ -31,15 +31,13 @@ function Keyboard({
       navigate(nextRoute);
       setIsKeyboardOpen(false);
     } else if (inputValue === '') {
-      // alert('Введите номер заказа');
       setIsPopupOpen(true);
       setTimeout(setIsPopupOpen, 2000, false);
     } else if (inputValue === 'skuProducts') {
       setIsPopupOpen(true);
     } else {
-      alert('Введен неверный номер заказа');
-      // setIsPopupOpen(true);
-      // setTimeout(setIsPopupOpen, 2000, false);
+      setIsPopupOpen(true);
+      setTimeout(setIsPopupOpen, 2000, false);
     }
   };
 
