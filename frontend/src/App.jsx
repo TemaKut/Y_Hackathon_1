@@ -7,7 +7,6 @@ import Style from './App.module.scss';
 import getOrderCell from './utils/getOrderCell';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
-import Keyboard from './components/Keyboard/Keyboard';
 import Popup from './components/Popup/Popup';
 import Footer from './components/Footer/Footer';
 import Products from './components/Products/Products';
@@ -23,7 +22,6 @@ function App() {
   const [error, setError] = useState(false);
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [keyboardTitleText, setKeyboardTitleText] = useState('');
   const [orderData, setOrderData] = useState({
     cell: '',
     orderkey: '',
@@ -58,14 +56,13 @@ function App() {
 
   function keyboardClick() {
     if (['/'].includes(location.pathname)) {
-      setKeyboardTitleText('Введите код ячейки');
-      setIsKeyboardOpen(true);
+      setIsKeyboardOpen((prev) => !prev);
     } else if (['/products'].includes(location.pathname)) {
-      setKeyboardTitleText('Введите код товара');
-      setIsKeyboardOpen(true);
+      setIsKeyboardOpen((prev) => !prev);
     } else if (['/package'].includes(location.pathname)) {
-      navigate('/final');
+      setIsKeyboardOpen((prev) => !prev);
     } else if (['/final'].includes(location.pathname)) {
+      // не забыть удалить это условие, если оно не нужно
       setIsPopupOpen(true);
     }
   }
@@ -96,6 +93,9 @@ function App() {
                 isStart={isStart}
                 cellName={orderData.cell}
                 handleClickBtn={getOrderData}
+                isKeyboardOpen={isKeyboardOpen}
+                setIsKeyboardOpen={setIsKeyboardOpen}
+                orderKey={orderData.orderkey}
               />
             }
           />
@@ -105,6 +105,8 @@ function App() {
             element={
               <Products
                 cellName={orderData.cell}
+                isKeyboardOpen={isKeyboardOpen}
+                setIsKeyboardOpen={setIsKeyboardOpen}
                 orderkey={orderData.orderkey}
                 setIsPopupOpen={setIsPopupOpen}
               />
@@ -124,19 +126,14 @@ function App() {
                 }}
                 setError={setError}
                 setLoading={setLoading}
+                isKeyboardOpen={isKeyboardOpen}
+                setIsKeyboardOpen={setIsKeyboardOpen}
               />
             }
           />
           <Route exact path="/final" element={<Final />} />
         </Routes>
       </main>
-      <Keyboard
-        isKeyboardOpen={isKeyboardOpen}
-        setIsKeyboardOpen={setIsKeyboardOpen}
-        orderkey={orderData.orderkey}
-        titleText={keyboardTitleText}
-        setIsPopupOpen={setIsPopupOpen}
-      />
       <Popup
         isStart={isStart}
         isPackage={isPackage}
