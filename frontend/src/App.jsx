@@ -139,7 +139,7 @@ function App() {
             element={
               <Package
                 orderKey={orderData.orderkey}
-                setOrderData={(suggestedPackage) => {
+                setSuggestedPackage={(suggestedPackage) => {
                   setOrderData((prevOrderData) => ({
                     ...prevOrderData,
                     suggestedPackage,
@@ -149,6 +149,12 @@ function App() {
                 setLoading={setLoading}
                 isKeyboardOpen={isKeyboardOpen}
                 setIsKeyboardOpen={setIsKeyboardOpen}
+                setChosenPackage={(chosenPackage) => {
+                  setOrderData((prevOrderData) => ({
+                    ...prevOrderData,
+                    chosenPackage,
+                  }));
+                }}
               />
             }
           />

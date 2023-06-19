@@ -9,6 +9,7 @@ function Keyboard({
   isKeyboardOpen,
   setIsKeyboardOpen,
   compareData,
+  setChosenPackage,
   nextRoute,
   titleText,
   isPackage,
@@ -24,6 +25,7 @@ function Keyboard({
 
   const handleClickBtn = () => {
     if (isPackage) {
+      setChosenPackage(inputValue);
       navigate(nextRoute);
     }
     if (inputValue === compareData) {
@@ -69,6 +71,7 @@ function Keyboard({
 Keyboard.propTypes = {
   isKeyboardOpen: PropTypes.bool.isRequired,
   setIsKeyboardOpen: PropTypes.func.isRequired,
+  setChosenPackage: PropTypes.func,
   compareData: PropTypes.string.isRequired,
   nextRoute: PropTypes.string.isRequired,
   titleText: PropTypes.string.isRequired,
@@ -77,6 +80,7 @@ Keyboard.propTypes = {
 };
 
 Keyboard.defaultProps = {
+  setChosenPackage: () => {},
   isPackage: false,
   setIsPopupOpen: () => {},
 };
