@@ -9,13 +9,19 @@ import Cell from '../Cell/Cell';
 import Card from './Card/Card';
 import Keyboard from '../Keyboard/Keyboard';
 
-function Products({ cellName, orderKey, isKeyboardOpen, setIsKeyboardOpen }) {
+function Products({
+  cellName,
+  orderkey,
+  setIsPopupOpen,
+  isKeyboardOpen,
+  setIsKeyboardOpen,
+}) {
   const navigate = useNavigate();
   const [productsCell, setProductsCell] = useState([]);
   const [allChecked, setAllChecked] = useState(false);
   let allProductsCount = 0;
 
-  const { value } = useAsync(getOrderProducts, orderKey);
+  const { value } = useAsync(getOrderProducts, orderkey);
   useEffect(() => {
     if (value) {
       setProductsCell(value);
@@ -30,11 +36,16 @@ function Products({ cellName, orderKey, isKeyboardOpen, setIsKeyboardOpen }) {
     navigate('/package');
   };
 
+  const handleClickProblem = () => {
+    setIsPopupOpen(true);
+    setTimeout(setIsPopupOpen, 2000, false);
+  };
+
   return productsCell ? (
     <>
       <section className={Style.products}>
         <Button
-          // onClickBtn={handleClickBtn}
+          onClickBtn={handleClickProblem}
           btnPosition="left"
           btnColor="grey"
           btnSize="big"
@@ -92,12 +103,13 @@ Products.propTypes = {
   cellName: PropTypes.string,
   isKeyboardOpen: PropTypes.bool.isRequired,
   setIsKeyboardOpen: PropTypes.func.isRequired,
-  orderKey: PropTypes.string,
+  orderkey: PropTypes.string,
+  setIsPopupOpen: PropTypes.bool.isRequired,
 };
 
 Products.defaultProps = {
   cellName: '',
-  orderKey: '',
+  orderkey: '',
 };
 
 export default Products;

@@ -24,10 +24,15 @@ function Package({
     l: '',
   });
   const [packageName, setPackageName] = useState('');
-  const [packageProperties, setPackageProperties] = useState({});
+  const [packageProperties, setPackageProperties] = useState({
+    name: '',
+    type: '',
+    backgroundColor: '',
+  });
 
   const getPackageData = () => {
     if (orderKey) {
+      setLoading(true);
       getOrderPackage(orderKey)
         .then((response) => {
           setPackageData(response);
@@ -50,8 +55,16 @@ function Package({
     const filteredData = packagePropertiesData.filter(
       (item) => item.name === packageName
     );
-    setPackageProperties(filteredData[0]);
-  }, [packageName, packageProperties]);
+    if (filteredData.length > 0) {
+      setPackageProperties(filteredData[0]);
+    } else {
+      setPackageProperties({
+        name: packageName,
+        type: packageName.substring(0, 1) === 'Y' ? 'box' : 'none',
+        backgroundColor: '#FF0000',
+      });
+    }
+  }, [packageName]);
 
   useEffect(() => {
     getPackageData();
@@ -61,7 +74,7 @@ function Package({
     setOrderData(packageName);
   }, [packageName]);
 
-  return packageProperties ? (
+  return packageData && packageName && packageProperties ? (
     <>
       <section className={Style.package}>
         <div className={Style.buttons}>

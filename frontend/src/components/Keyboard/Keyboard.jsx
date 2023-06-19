@@ -13,6 +13,7 @@ function Keyboard({
   nextRoute,
   titleText,
   isPackage,
+  setIsPopupOpen,
 }) {
   const navigate = useNavigate();
   const [inputValue, setInputValue] = useState('');
@@ -30,9 +31,15 @@ function Keyboard({
       navigate(nextRoute);
       setIsKeyboardOpen(false);
     } else if (inputValue === '') {
-      alert('Введите код');
+      // alert('Введите номер заказа');
+      setIsPopupOpen(true);
+      setTimeout(setIsPopupOpen, 2000, false);
+    } else if (inputValue === 'skuProducts') {
+      setIsKeyboardOpen(false);
     } else {
-      alert('Введен неверный код');
+      // alert('Введен неверный номер заказа');
+      setIsPopupOpen(true);
+      setTimeout(setIsPopupOpen, 2000, false);
     }
   };
 
@@ -71,6 +78,7 @@ Keyboard.propTypes = {
   nextRoute: PropTypes.string.isRequired,
   titleText: PropTypes.string.isRequired,
   isPackage: PropTypes.bool,
+  setIsPopupOpen: PropTypes.bool.isRequired,
 };
 
 Keyboard.defaultProps = {

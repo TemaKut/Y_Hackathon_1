@@ -31,6 +31,8 @@ function App() {
 
   const isStart = ['/'].includes(location.pathname);
   const isFinal = ['/final'].includes(location.pathname);
+  const isPackage = ['/package'].includes(location.pathname);
+  const isProducts = ['/product'].includes(location.pathname);
 
   const getOrderData = () => {
     getOrderCell()
@@ -67,7 +69,8 @@ function App() {
 
   function footerButtonClick() {
     if (isStart) {
-      alert('Скоро придут Вам помочь');
+      setIsPopupOpen(true);
+      setTimeout(setIsPopupOpen, 2000, false);
     } else {
       navigate(-1);
     }
@@ -89,16 +92,7 @@ function App() {
               <Main
                 isStart={isStart}
                 cellName={orderData.cell}
-                setOrderData={(newCellName) => {
-                  setOrderData((prevOrderData) => ({
-                    ...prevOrderData,
-                    cell: newCellName,
-                  }));
-                  localStorage.setItem(
-                    'orderData',
-                    JSON.stringify({ ...orderData, cell: newCellName })
-                  );
-                }}
+                handleClickBtn={getOrderData}
                 isKeyboardOpen={isKeyboardOpen}
                 setIsKeyboardOpen={setIsKeyboardOpen}
                 orderKey={orderData.orderkey}
@@ -113,7 +107,8 @@ function App() {
                 cellName={orderData.cell}
                 isKeyboardOpen={isKeyboardOpen}
                 setIsKeyboardOpen={setIsKeyboardOpen}
-                orderKey={orderData.orderkey}
+                orderkey={orderData.orderkey}
+                setIsPopupOpen={setIsPopupOpen}
               />
             }
           />
@@ -139,7 +134,13 @@ function App() {
           <Route exact path="/final" element={<Final />} />
         </Routes>
       </main>
-      <Popup isPopupOpen={isPopupOpen} />
+      <Popup
+        isStart={isStart}
+        isPackage={isPackage}
+        isProducts={isProducts}
+        isPopupOpen={isPopupOpen}
+        isKeyboardOpen={isKeyboardOpen}
+      />
       <Footer
         goBack={footerButtonClick}
         keyboardClick={keyboardClick}

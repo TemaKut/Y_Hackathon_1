@@ -1,24 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Style from './Main.module.scss';
-import getOrderCell from '../../utils/getOrderCell';
 import Cell from '../Cell/Cell';
 import Button from '../UI/Button/Button';
 import Keyboard from '../Keyboard/Keyboard';
 
 function Main({
   cellName,
-  setOrderData,
   isKeyboardOpen,
   setIsKeyboardOpen,
   orderKey,
+  handleClickBtn,
 }) {
-  const handleClickBtn = async () => {
-    const newValue = await getOrderCell();
-
-    setOrderData(newValue.cell);
-  };
-
   return (
     <>
       <section className={Style.main}>
@@ -47,7 +40,7 @@ function Main({
 
 Main.propTypes = {
   cellName: PropTypes.string,
-  setOrderData: PropTypes.func.isRequired,
+  handleClickBtn: PropTypes.func.isRequired,
   isKeyboardOpen: PropTypes.bool.isRequired,
   setIsKeyboardOpen: PropTypes.func.isRequired,
   orderKey: PropTypes.string.isRequired,

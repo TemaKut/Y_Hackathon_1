@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Style from './Card.module.scss';
+import degaultImage from '../../../images/default_product_logo.png';
 
 function Products({ card, setAllChecked, allChecked }) {
   const [scanedCount, setScanedCount] = useState(0);
-  const urlImage =
-    'http://localhost:8001/static/default_product_logo.png' ||
-    card.sku_logo_url;
+  const urlImage = degaultImage || card.sku_logo_url;
   const handleScanSku = () => setScanedCount(scanedCount + 1);
   if (scanedCount === card.count) {
     setAllChecked(true);
