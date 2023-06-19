@@ -11,7 +11,7 @@
 Рабочие директории/файлы и ответственные за них разработчики:
 - backend/ -> @TemaCu
 - yandex_mock_server/ -> @TemaCu
-- frontend/ -> @TemaCu @voyager1744
+- frontend/ -> @lipnickaite @KanapinM
 - ds/ -> @Rumia_s @SciManNik @IrinaBalycheva
 - docker-compose.yml -> @TemaCu
 
@@ -27,8 +27,10 @@ backend:
 - Написаны соответствующие тесты при помощи pytest
 
 frontend:
+- Язык JavaScript
 - Написан на библиотеке React
-- ...
+- Реализована статика приложения в соответствии с дизайном
+- Рализовано взаимодействие с api в асинхронной стилистике с применением axios
 
 ds:
 - Выполнена предобработка исходных данных
@@ -50,4 +52,4 @@ ds:
 - http://localhost:8000/docs (Документация backend)
 - http://localhost:8001/docs (Документация yandex mock server)
 - http://localhost:8002/docs (Документация сервера DS)
-- http://localhost/ (Полноценное приложение (frontend))
+- http://localhost:3000/ (Полноценное приложение (frontend))
