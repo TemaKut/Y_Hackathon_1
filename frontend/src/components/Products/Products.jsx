@@ -57,6 +57,7 @@ function Products({
           <ul className={Style.cards}>
             {productsCell.map(({ ...card }) => (
               <Card
+                key={card.sku}
                 card={card}
                 setAllChecked={setAllChecked}
                 allChecked={allChecked}
@@ -95,8 +96,8 @@ Products.propTypes = {
   isKeyboardOpen: PropTypes.bool.isRequired,
   setIsKeyboardOpen: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  productsCell: PropTypes.object.isRequired,
-  setIsPopupOpen: PropTypes.bool.isRequired,
+  productsCell: PropTypes.array.isRequired,
+  setIsPopupOpen: PropTypes.func.isRequired,
 };
 
 Products.defaultProps = {

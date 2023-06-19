@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -33,8 +32,6 @@ function Keyboard({
     } else if (inputValue === '') {
       setIsPopupOpen(true);
       setTimeout(setIsPopupOpen, 2000, false);
-    } else if (inputValue === 'skuProducts') {
-      setIsPopupOpen(true);
     } else {
       setIsPopupOpen(true);
       setTimeout(setIsPopupOpen, 2000, false);
@@ -76,11 +73,12 @@ Keyboard.propTypes = {
   nextRoute: PropTypes.string.isRequired,
   titleText: PropTypes.string.isRequired,
   isPackage: PropTypes.bool,
-  setIsPopupOpen: PropTypes.func.isRequired,
+  setIsPopupOpen: PropTypes.func,
 };
 
 Keyboard.defaultProps = {
   isPackage: false,
+  setIsPopupOpen: () => {},
 };
 
 export default Keyboard;
