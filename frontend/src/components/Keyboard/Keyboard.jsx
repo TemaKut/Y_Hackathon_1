@@ -9,8 +9,10 @@ import Style from './Keyboard.module.scss';
 function Keyboard({
   isKeyboardOpen,
   setIsKeyboardOpen,
-  orderkey,
+  compareData,
+  nextRoute,
   titleText,
+  isPackage,
   setIsPopupOpen,
 }) {
   const navigate = useNavigate();
@@ -22,8 +24,11 @@ function Keyboard({
   };
 
   const handleClickBtn = () => {
-    if (inputValue === orderkey) {
-      navigate('/products');
+    if (isPackage) {
+      navigate(nextRoute);
+    }
+    if (inputValue === compareData) {
+      navigate(nextRoute);
       setIsKeyboardOpen(false);
     } else if (inputValue === '') {
       // alert('Введите номер заказа');
@@ -48,7 +53,6 @@ function Keyboard({
           <input
             className={Style.input}
             type="text"
-            name="orderkey"
             value={inputValue}
             onChange={handleChange}
           />
@@ -70,9 +74,15 @@ function Keyboard({
 Keyboard.propTypes = {
   isKeyboardOpen: PropTypes.bool.isRequired,
   setIsKeyboardOpen: PropTypes.func.isRequired,
-  orderkey: PropTypes.string.isRequired,
+  compareData: PropTypes.string.isRequired,
+  nextRoute: PropTypes.string.isRequired,
   titleText: PropTypes.string.isRequired,
+  isPackage: PropTypes.bool,
   setIsPopupOpen: PropTypes.bool.isRequired,
+};
+
+Keyboard.defaultProps = {
+  isPackage: false,
 };
 
 export default Keyboard;
